@@ -1,6 +1,6 @@
 //Jadon Schuler 7/13/2015
 
-//Jadon is better than Alex
+//Alex is better than Jadon
 
 
 import java.awt.*;

@@ -19,7 +19,6 @@ public class BrickLevel10 extends JPanel
    private BufferedImage myImage;
    private Graphics myBuffer;
    private Ball ball;
-   private RubberBrick[] rubber;
    private PortalBrick a;
    private PortalBrick b;
    private PortalBrick c;
@@ -47,23 +46,19 @@ public class BrickLevel10 extends JPanel
       bumper = new Bumper(20,350,BUMPER_X_WIDTH,BUMPER_Y_WIDTH,BUMPER_COLOR);
       
       //Create bricks
-      rubber = new RubberBrick[4];
       row1 = new SteelBrick[7];
       row2 = new SteelBrick[7];
       
       a = new PortalBrick(20, 20);
       b = new PortalBrick(332, 20);
-      c = new PortalBrick(20, 350);
+      c = new PortalBrick(20, 332);
       d = new PortalBrick(332, 20);
-      overlord = new RubberBrick(200, 200);
+      overlord = new RubberBrick(175, 200);
       for(int i = 0; i < 7; i++)
       {
          row1[i] = new SteelBrick(i*52+20, 40);
          row2[i] = new SteelBrick(i*52+20, 70);
       }
-      for(int i = 0; i < 4; i++)
-         rubber[i] = new RubberBrick(i * 105 + 20, 200);
-      
       timer = new Timer(6, new Listener());
       //timer.start();
       
@@ -91,8 +86,6 @@ public class BrickLevel10 extends JPanel
             bumper.setX(bumper.getX()-3);
          
          BumperCollision.collide(bumper, ball);
-         for(int i = 0; i < 4; i++)
-            BrickCollision.collide(rubber[i], ball);
          for(int i = 0; i < 7; i++)
          {
             BrickCollision.collide(row1[i], ball);
@@ -103,7 +96,7 @@ public class BrickLevel10 extends JPanel
          BrickCollision.collide(c, ball);
          BrickCollision.collide(d, ball);
          BrickCollision.collide(overlord, ball);
-
+      
          
          a.teleport(ball);
          b.teleport(ball);
@@ -165,8 +158,6 @@ public class BrickLevel10 extends JPanel
             row1[i].draw(myBuffer);
             row2[i].draw(myBuffer);
          }
-         for(int i = 0; i < 4; i++) 
-            rubber[i].draw(myBuffer);  
          a.draw(myBuffer);
          b.draw(myBuffer); 
          c.draw(myBuffer);

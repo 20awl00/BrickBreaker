@@ -23,7 +23,7 @@ public class DriverBrick
       frame.setSize(600, 600);
       frame.setLocation(350, 180);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      String filename = JOptionPane.showInputDialog("Which level?");
+      /*String filename = JOptionPane.showInputDialog("Which level?");
       if(filename.equals("level 1") || filename.equals("level1") || filename.equals("Level 1") || filename.equals("Level1")){
          frame.setContentPane(new BrickLevel01());
       }
@@ -57,11 +57,14 @@ public class DriverBrick
       else if(filename.equals("level 10") || filename.equals("level10") || filename.equals("Level 10") || filename.equals("Level10")){
          frame.setContentPane(new BrickLevel10());
       }
-
+   
       else
-         frame.setContentPane(new BrickPanel());
+         frame.setContentPane(new BrickPanel()); */
       
-      
+      BrickLevel10 level = new BrickLevel10();
+      frame.setContentPane(level);
+               //level.requestFocus();
+      level.startTimer();
       frame.setVisible(true);
       
    }

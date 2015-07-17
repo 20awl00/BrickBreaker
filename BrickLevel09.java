@@ -58,7 +58,7 @@ public class BrickLevel09 extends JPanel
       for(int i = 0; i < 4; i++)
          rubber[i] = new RubberBrick(i*120+20, 320);
    
-      timer = new Timer(9, new Listener());
+      timer = new Timer(6, new Listener());
       //timer.start();
       
       addKeyListener(new Key());

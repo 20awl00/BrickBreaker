@@ -50,13 +50,13 @@ public class BrickLevel09 extends JPanel
       
       a = new PortalBrick(20, 20);
       b = new PortalBrick(380, 20);
-      for(int i = 20; i < 7; i++)
+      for(int i = 0; i < 7; i++)
       {
-         row1[i] = new MedBrick(i*52, 40);
-         row2[i] = new SteelBrick(i*52, 70);
+         row1[i] = new MedBrick(i*52+20, 40);
+         row2[i] = new SteelBrick(i*52+20, 70);
       }
-      for(int i = 100; i < 4; i++)
-         rubber[i] = new RubberBrick(i*120, 320);
+      for(int i = 0; i < 4; i++)
+         rubber[i] = new RubberBrick(i*120+20, 320);
    
       timer = new Timer(9, new Listener());
       //timer.start();

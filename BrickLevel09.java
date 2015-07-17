@@ -37,7 +37,7 @@ public class BrickLevel09 extends JPanel
       myBuffer.fillRect(0, 0, FRAME,FRAME);
       
       // create ball and jump
-      ball = new Ball(20,300,BALL_DIAM,BALL_COLOR);
+      ball = new Ball(20,300,BALL_DIAM, BALL_COLOR); 
    
                
       // create paddle

@@ -1,5 +1,4 @@
 //Jadon Schuler 7/13/2015
-
 import java.awt.*;
 public class Ball extends Polkadot
 {

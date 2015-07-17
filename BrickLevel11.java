@@ -160,7 +160,7 @@ public class BrickLevel11 extends JPanel
                   timer.stop();
                }
             }
-            if(ball.getY()-12 >= FRAME)
+            /*if(ball.getY()-12 >= FRAME)
             {
                lives --;
                ball.setX(20);
@@ -174,7 +174,7 @@ public class BrickLevel11 extends JPanel
                   myBuffer.drawString("YOU LOSE", 80, 150);
                   timer.stop();
                }
-            }
+            }*/
          boolean allOk = true ;
          for( int i = 0 ; i < 7; i++)
          {

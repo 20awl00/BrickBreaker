@@ -56,7 +56,7 @@ public class BrickLevel09 extends JPanel
          row2[i] = new SteelBrick(i*52+20, 70);
       }
       for(int i = 0; i < 4; i++)
-         rubber[i] = new RubberBrick(i*120+10, 320);
+         rubber[i] = new RubberBrick(i * 105 + 20, 320);
    
       timer = new Timer(6, new Listener());
       //timer.start();
@@ -118,8 +118,6 @@ public class BrickLevel09 extends JPanel
             allOk = allOk && row1[i].ok ;
             allOk = allOk && row2[i].ok ;
          }
-         for(int i = 0; i < 4; i++)
-            allOk = allOk && rubber[i].ok ;
             
          allOk = allOk && a.ok;
          allOk = allOk && b.ok;

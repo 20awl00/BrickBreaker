@@ -1,4 +1,8 @@
 //Jadon Schuler 7/13/2015
+
+//Jadon is better than Alex
+
+
 import java.awt.*;
 public class Ball extends Polkadot
 {

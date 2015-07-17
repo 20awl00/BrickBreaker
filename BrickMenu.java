@@ -27,14 +27,15 @@ public class BrickMenu extends JPanel
       addButton(subpanel1, "Two", 2);
       addButton(subpanel1, "Three", 3);
       addButton(subpanel1, "Four", 4);
+      addButton(subpanel1, "Five", 5);
       add(subpanel1, BorderLayout.NORTH);
       
       JPanel subpanel2 = new JPanel();
-      subpanel2.setLayout(new FlowLayout());
-      addButton(subpanel2, "Five", 5);
+      subpanel2.setLayout(new FlowLayout()); 
       addButton(subpanel2, "Six", 6);
       addButton(subpanel2, "Seven", 7);
       addButton(subpanel2, "Eight", 8);
+      addButton(subpanel2, "Nine", 9);
       add(subpanel2, BorderLayout.SOUTH);
    }
    

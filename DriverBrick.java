@@ -51,7 +51,10 @@ public class DriverBrick
       else if(filename.equals("level 8") || filename.equals("level8") || filename.equals("Level 8") || filename.equals("Level8")){
          frame.setContentPane(new BrickLevel08());
       }
-      
+      else if(filename.equals("level 9") || filename.equals("level9") || filename.equals("Level 9") || filename.equals("Level9")){
+         frame.setContentPane(new BrickLevel09());
+      }
+
       else
          frame.setContentPane(new BrickPanel());
       

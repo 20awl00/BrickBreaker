@@ -44,21 +44,21 @@ public class BrickLevel09 extends JPanel
       bumper = new Bumper(20,350,BUMPER_X_WIDTH,BUMPER_Y_WIDTH,BUMPER_COLOR);
       
       //Create bricks
-      rubber = new RubberBrick[3];
+      rubber = new RubberBrick[4];
       row1 = new MedBrick[7];
       row2 = new SteelBrick[7];
       
       a = new PortalBrick(20, 20);
       b = new PortalBrick(380, 20);
-      for(int i = 0; i < 7; i++)
+      for(int i = 20; i < 7; i++)
       {
          row1[i] = new MedBrick(i*52, 40);
          row2[i] = new SteelBrick(i*52, 70);
       }
-      for(int i = 0; i < 3; i++)
+      for(int i = 100; i < 4; i++)
          rubber[i] = new RubberBrick(i*120, 320);
    
-      timer = new Timer(6, new Listener());
+      timer = new Timer(9, new Listener());
       timer.start();
       
       addKeyListener(new Key());
@@ -85,7 +85,7 @@ public class BrickLevel09 extends JPanel
             bumper.setX(bumper.getX()-3);
          
          BumperCollision.collide(bumper, ball);
-         for(int i = 0; i < 3; i++)
+         for(int i = 0; i < 4; i++)
             BrickCollision.collide(rubber[i], ball);
          for(int i = 0; i < 7; i++)
          {
@@ -118,7 +118,7 @@ public class BrickLevel09 extends JPanel
             allOk = allOk && row1[i].ok ;
             allOk = allOk && row2[i].ok ;
          }
-         for(int i = 0; i < 3; i++)
+         for(int i = 0; i < 4; i++)
             allOk = allOk && rubber[i].ok ;
             
          allOk = allOk && a.ok;
@@ -153,7 +153,7 @@ public class BrickLevel09 extends JPanel
             row1[i].draw(myBuffer);
             row2[i].draw(myBuffer);
          }
-         for(int i = 0; i < 3; i++) 
+         for(int i = 0; i < 4; i++) 
             rubber[i].draw(myBuffer);  
          a.draw(myBuffer);
          b.draw(myBuffer);  

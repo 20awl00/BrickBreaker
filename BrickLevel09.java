@@ -22,8 +22,8 @@ public class BrickLevel09 extends JPanel
    private RubberBrick[] rubber;
    private PortalBrick a;
    private PortalBrick b;
-   private MedBrick[] row 1;
-   private SteelBrick[] row 2;
+   private MedBrick[] row1;
+   private SteelBrick[] row2;
    private Bumper bumper;
    private Timer timer;
    
@@ -45,11 +45,20 @@ public class BrickLevel09 extends JPanel
       
       //Create bricks
       rubber = new RubberBrick[3];
-      a = new PortalBrick(100, 20);
-      b = new SteelBrick(152, 20);
-      c = new MedBrick(260, 20);
+      row1 = new MedBrick[7];
+      row2 = new SteelBrick[7];
       
-      timer = new Timer(5, new Listener());
+      a = new PortalBrick(20, 20);
+      b = new PortalBrick(380, 20);
+      for(int i = 0; i < 7; i++)
+      {
+         row1[i] = new MedBrick(i*52, 40);
+         row2[i] = new SteelBrick(i*52, 70);
+      }
+      for(int i = 0; i < 3; i++)
+         rubber[i] = new RubberBrick(i*120, 320);
+   
+      timer = new Timer(6, new Listener());
       timer.start();
       
       addKeyListener(new Key());
@@ -76,14 +85,18 @@ public class BrickLevel09 extends JPanel
             bumper.setX(bumper.getX()-3);
          
          BumperCollision.collide(bumper, ball);
-         BrickCollision.collide(af, ball);
+         for(int i = 0; i < 3; i++)
+            BrickCollision.collide(rubber[i], ball);
+         for(int i = 0; i < 7; i++)
+         {
+            BrickCollision.collide(row1[i], ball);
+            BrickCollision.collide(row2[i], ball);
+         }
          BrickCollision.collide(a, ball);
          BrickCollision.collide(b, ball);
-         BrickCollision.collide(c, ball);
-         
          
          a.teleport(ball);
-         
+         b.teleport(ball);
          if(ball.getY()-12 >= FRAME)
          {
             lives --;
@@ -99,7 +112,19 @@ public class BrickLevel09 extends JPanel
                timer.stop();
             }
          }
-         if(a.ok && b.ok && c.ok)
+         boolean allOk = true ;
+         for( int i = 0 ; i < 7; i++)
+         {
+            allOk = allOk && row1[i].ok ;
+            allOk = allOk && row2[i].ok ;
+         }
+         for(int i = 0; i < 3; i++)
+            allOk = allOk && rubber[i].ok ;
+            
+         allOk = allOk && a.ok;
+         allOk = allOk && b.ok;
+           
+         if(allOk)
          {
             myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
             myBuffer.setColor(Color.GREEN.darker());
@@ -123,12 +148,15 @@ public class BrickLevel09 extends JPanel
          // draw ball, bumper & prize
          ball.draw(myBuffer);
          bumper.draw(myBuffer);
-         af.draw(myBuffer);
+         for(int i = 0; i < 7; i++)       
+         {
+            row1[i].draw(myBuffer);
+            row2[i].draw(myBuffer);
+         }
+         for(int i = 0; i < 3; i++) 
+            rubber[i].draw(myBuffer);  
          a.draw(myBuffer);
-         b.draw(myBuffer);
-         c.draw(myBuffer);
-         
-                     
+         b.draw(myBuffer);  
          repaint();
       }
    } 

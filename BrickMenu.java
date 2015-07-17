@@ -14,6 +14,7 @@ public class BrickMenu extends JPanel
    public BrickLevel06 level6;
    public BrickLevel07 level7;
    public BrickLevel08 level8;
+   public BrickLevel09 level9;
       
    public BrickMenu()
    {
@@ -96,6 +97,11 @@ public class BrickMenu extends JPanel
                add(level8, BorderLayout.CENTER);
                level8.requestFocus();
                level8.startTimer();
+               break;
+            case 9: level9 = new BrickLevel09();
+               add(level9, BorderLayout.CENTER);
+               level9.requestFocus();
+               level9.startTimer();
                break;
          }
          validate();

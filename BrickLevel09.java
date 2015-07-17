@@ -59,7 +59,7 @@ public class BrickLevel09 extends JPanel
          rubber[i] = new RubberBrick(i*120, 320);
    
       timer = new Timer(9, new Listener());
-      timer.start();
+      //timer.start();
       
       addKeyListener(new Key());
       setFocusable(true);
@@ -197,5 +197,8 @@ public class BrickLevel09 extends JPanel
             right = false;
       }
    }
-
+   public void startTimer()
+   {
+      timer.start();
+   }
 }

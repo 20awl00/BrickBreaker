@@ -149,20 +149,6 @@ public class BrickLevel01 extends JPanel
       }
    } 
    
-	// checks to see if the ball & prize collide
-	// if so, increments hits & relocates prize	
-   
-   /*public void collide(Ball b, Polkadot p)
-   {
-      // find distance between ball & prize centers
-      double dist = distance(b.getX(), b.getY(), p.getX(), p.getY());
-      
-      if(dist < p.getRadius() + b.getRadius())
-      {
-         hits++;
-         p.jump(FRAME,FRAME);    	
-      }
-   }*/
 		
    private double distance(double x1, double y1, double x2, double y2)
    {

@@ -11,7 +11,7 @@ public class DriverBrickMenu
       frame.setSize(720, 840);
       frame.setLocation(300, 90);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-      frame.setContentPane(new BrickMenu());
+      frame.setContentPane(new BrickMenuV2());
       frame.setVisible(true);
    }
 }

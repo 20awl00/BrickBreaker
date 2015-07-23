@@ -18,9 +18,7 @@ public class BrickLevel11 extends JPanel
 
    private BufferedImage myImage;
    private Graphics myBuffer;
-   private Ball ball;
-   private Ball ball2;
-   private Ball ball3;
+   private Ball[] ball;
    private RubberBrick[] rubber;
    private PortalBrick a;
    private PortalBrick b;
@@ -28,9 +26,10 @@ public class BrickLevel11 extends JPanel
    private SteelBrick[] row2;
    private Bumper bumper;
    private Timer timer;
-   private int multi = 1;
    
-   private boolean left, right, space;    
+   private int numBalls = 1;
+   
+   private boolean left, right;    
    
    public BrickLevel11()
    {
@@ -40,7 +39,9 @@ public class BrickLevel11 extends JPanel
       myBuffer.fillRect(0, 0, FRAME,FRAME);
       
       // create ball and jump
-      ball = new Ball(20,300,BALL_DIAM, BALL_COLOR); 
+      ball = new Ball[1000];
+      for (int k = 0; k < numBalls; k ++)
+         ball[k] = new Ball(20,300,BALL_DIAM, BALL_COLOR); 
    
                
       // create paddle
@@ -80,92 +81,54 @@ public class BrickLevel11 extends JPanel
       {
          // clear buffer and move ball
          myBuffer.setColor(BACKGROUND);
-         myBuffer.fillRect(0,0,FRAME,FRAME); 
-         ball.move(FRAME, FRAME);
-         if(space)
-         {
-            while(multi < 2)
-            {
-               multiball();
-               multi ++;
-            }
-         }
-         if(space)
-         {
-            ball2.move(FRAME, FRAME);
-            ball3.move(FRAME, FRAME);
-         }
+         myBuffer.fillRect(0,0,FRAME,FRAME);
+         
+         for(int k = 0; k < numBalls; k ++)
+            ball[k].move(FRAME, FRAME);
+         
          if(right)
             bumper.setX(bumper.getX()+3);
          if(left)
             bumper.setX(bumper.getX()-3);
          
-         BumperCollision.collide(bumper, ball);
-         if(space == true)
-         {
-            BumperCollision.collide(bumper, ball2);
-            BumperCollision.collide(bumper, ball3);
-         }
+         for(int k = 0; k < numBalls; k ++)
+            BumperCollision.collide(bumper, ball[k]);
+         
          for(int i = 0; i < 4; i++)
-         {
-            BrickCollision.collide(rubber[i], ball);
-            if(space == true)
-            {
-               BrickCollision.collide(rubber[i], ball2);
-               BrickCollision.collide(rubber[i], ball3);
-            }
-         }
+            for(int k = 0; k < numBalls; k ++)
+               BrickCollision.collide(rubber[i], ball[k]);
+            
          for(int i = 0; i < 7; i++)
          {
-            BrickCollision.collide(row1[i], ball);
-            BrickCollision.collide(row2[i], ball);
-            if (space == true)
+            for(int k = 0; k < numBalls; k ++)
             {
-               BrickCollision.collide(row1[i], ball2);
-               BrickCollision.collide(row2[i], ball2);
-               BrickCollision.collide(row1[i], ball3);
-               BrickCollision.collide(row2[i], ball3);
+               BrickCollision.collide(row1[i], ball[k]);
+               BrickCollision.collide(row2[i], ball[k]);
             }
          }
-         BrickCollision.collide(a, ball);
-         BrickCollision.collide(b, ball);
-         if(space == true)
+         for(int k = 0; k < numBalls; k ++)
          {
-            BrickCollision.collide(a, ball2);
-            BrickCollision.collide(b, ball3);
-            BrickCollision.collide(a, ball3);
-            BrickCollision.collide(b, ball2);
+            BrickCollision.collide(a, ball[k]);
+            BrickCollision.collide(b, ball[k]);
+         
+            a.teleport(ball[k]);
+            b.teleport(ball[k]);
          }
-         
-         a.teleport(ball);
-         b.teleport(ball);
-         
-         if(space == true)
+         if(ball[0].getY()-12 >= FRAME)
          {
-            a.teleport(ball2);
-            b.teleport(ball2);
-            a.teleport(ball3);
-            b.teleport(ball3);
-         }
-         
-         if(space)
-            if(ball.getY()-12 >= FRAME && ball2.getY()-12 >= FRAME && ball3.getY()-12 >= FRAME)
+            lives --;
+            ball[0].setX(20);
+            ball[0].setY(300);
+            ball[0].setdx(3);
+            ball[0].setdy(-2);
+            if (lives < 1)
             {
-               lives --;
-               ball.setX(20);
-               ball.setY(300);
-               ball.setdx(3);
-               ball.setdy(-2);
-               if (lives < 1)
-               {
-                  myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
-                  myBuffer.setColor(Color.RED.darker());
-                  myBuffer.drawString("YOU LOSE", 80, 150);
-                  timer.stop();
-               }
+               myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
+               myBuffer.setColor(Color.RED.darker());
+               myBuffer.drawString("YOU LOSE", 80, 150);
+               timer.stop();
             }
-            
-            
+         }
          boolean allOk = true ;
          for( int i = 0 ; i < 7; i++)
          {
@@ -183,20 +146,13 @@ public class BrickLevel11 extends JPanel
             myBuffer.drawString("YOU WIN", 90, 150);
             timer.stop();
          }
-         if(ball.getdx() == 0)
-            ball.setdx(2);
-         if(ball.getdy() == 0)
-            ball.setdy(2);
-         if(space == true)
+         
+         for(int k = 0; k < numBalls; k ++)
          {
-            if(ball2.getdx() == 0)
-               ball2.setdx(2);
-            if(ball2.getdy() == 0)
-               ball2.setdy(2);
-            if(ball3.getdx() == 0)
-               ball3.setdx(2);
-            if(ball3.getdy() == 0)
-               ball3.setdy(2);
+         if(ball[k].getdx() == 0)
+            ball[k].setdx(2);
+         if(ball[k].getdy() == 0)
+            ball[k].setdy(2);
          }
             
          if(bumper.getX()<= 0)
@@ -208,8 +164,11 @@ public class BrickLevel11 extends JPanel
          myBuffer.setColor(Color.WHITE);
          myBuffer.drawString("Lives: " + lives, 320, 20);
       
-         // draw ball, bumper & prize
-         ball.draw(myBuffer);
+         // draw ball & bumper
+         
+         for(int k = 0; k < numBalls; k ++)
+         ball[k].draw(myBuffer);
+         
          bumper.draw(myBuffer);
          for(int i = 0; i < 7; i++)       
          {
@@ -219,16 +178,12 @@ public class BrickLevel11 extends JPanel
          for(int i = 0; i < 4; i++) 
             rubber[i].draw(myBuffer);  
          a.draw(myBuffer);
-         b.draw(myBuffer);
-         if(space == true)
-         {
-            ball2.draw(myBuffer);
-            ball3.draw(myBuffer);
-         }  
+         b.draw(myBuffer);  
          repaint();
       }
    } 
    
+		
    private double distance(double x1, double y1, double x2, double y2)
    {
       return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
@@ -242,7 +197,7 @@ public class BrickLevel11 extends JPanel
          if(e.getKeyCode()==KeyEvent.VK_RIGHT)
             right = true;
          if(e.getKeyCode()==KeyEvent.VK_SPACE)
-            space = true;
+            multiball();
       }
       public void keyReleased(KeyEvent e)
       {
@@ -258,8 +213,9 @@ public class BrickLevel11 extends JPanel
    }
    public void multiball()
    {
-      ball2 = new Ball(20,300,BALL_DIAM, BALL_COLOR);
-      ball3 = new Ball(20,300,BALL_DIAM, BALL_COLOR);
-      ball3.setdy(1);
+      for(int k = numBalls; k < numBalls + 2; k ++)
+         ball[k] = new Ball(20,300,BALL_DIAM, BALL_COLOR);
+      ball[numBalls].setdx(2);
+      numBalls += 2;
    }
 }

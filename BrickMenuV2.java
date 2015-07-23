@@ -51,6 +51,8 @@ public class BrickMenuV2 extends JPanel
       }
       add(subpanel2, BorderLayout.SOUTH);
       buttonArray1[0].setEnabled(true);
+      buttonArray2[4].setEnabled(true);
+      buttonArray2[2].setEnabled(true);
    }
    
    

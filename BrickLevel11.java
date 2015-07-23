@@ -133,10 +133,13 @@ public class BrickLevel11 extends JPanel
          {
             BrickCollision.collide(a, ball2);
             BrickCollision.collide(b, ball3);
+            BrickCollision.collide(a, ball3);
+            BrickCollision.collide(b, ball2);
          }
          
          a.teleport(ball);
          b.teleport(ball);
+         
          if(space == true)
          {
             a.teleport(ball2);
@@ -144,6 +147,7 @@ public class BrickLevel11 extends JPanel
             a.teleport(ball3);
             b.teleport(ball3);
          }
+         
          if(space)
             if(ball.getY()-12 >= FRAME && ball2.getY()-12 >= FRAME && ball3.getY()-12 >= FRAME)
             {
@@ -160,21 +164,8 @@ public class BrickLevel11 extends JPanel
                   timer.stop();
                }
             }
-            /*if(ball.getY()-12 >= FRAME)
-            {
-               lives --;
-               ball.setX(20);
-               ball.setY(300);
-               ball.setdx(3);
-               ball.setdy(-2);
-               if (lives < 1)
-               {
-                  myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
-                  myBuffer.setColor(Color.RED.darker());
-                  myBuffer.drawString("YOU LOSE", 80, 150);
-                  timer.stop();
-               }
-            }*/
+            
+            
          boolean allOk = true ;
          for( int i = 0 ; i < 7; i++)
          {

@@ -27,9 +27,11 @@ public class BrickLevel11 extends JPanel
    private Bumper bumper;
    private Timer timer;
    
+   private JLabel label;
+   
    private int numBalls = 1;
    
-   private boolean left, right;    
+   private boolean left, right, resume;    
    
    public BrickLevel11()
    {
@@ -38,8 +40,15 @@ public class BrickLevel11 extends JPanel
       myBuffer.setColor(BACKGROUND);
       myBuffer.fillRect(0, 0, FRAME,FRAME);
       
+      label = new JLabel();
+      label.setFont(new Font("Handwriting - Dakota", Font.BOLD, 30));
+      label.setForeground(Color.yellow);
+      label.setBackground(Color.black);
+      label.setOpaque(true);
+      add(label);
+      
       // create ball and jump
-      ball = new Ball[1000];
+      ball = new Ball[3];
       for (int k = 0; k < numBalls; k ++)
          ball[k] = new Ball(20,300,BALL_DIAM, BALL_COLOR); 
    
@@ -114,13 +123,14 @@ public class BrickLevel11 extends JPanel
             a.teleport(ball[k]);
             b.teleport(ball[k]);
          }
-         if(ball[0].getY()-12 >= FRAME)
+         
+         if(checkLife())
          {
             lives --;
-            ball[0].setX(20);
-            ball[0].setY(300);
-            ball[0].setdx(3);
-            ball[0].setdy(-2);
+            ball[numBalls - 1].setX(20);
+            ball[numBalls - 1].setY(300);
+            ball[numBalls - 1].setdx(3);
+            ball[numBalls - 1].setdy(-2);
             if (lives < 1)
             {
                myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
@@ -129,6 +139,7 @@ public class BrickLevel11 extends JPanel
                timer.stop();
             }
          }
+         
          boolean allOk = true ;
          for( int i = 0 ; i < 7; i++)
          {
@@ -149,10 +160,10 @@ public class BrickLevel11 extends JPanel
          
          for(int k = 0; k < numBalls; k ++)
          {
-         if(ball[k].getdx() == 0)
-            ball[k].setdx(2);
-         if(ball[k].getdy() == 0)
-            ball[k].setdy(2);
+            if(ball[k].getdx() == 0)
+               ball[k].setdx(2);
+            if(ball[k].getdy() == 0)
+               ball[k].setdy(2);
          }
             
          if(bumper.getX()<= 0)
@@ -167,7 +178,7 @@ public class BrickLevel11 extends JPanel
          // draw ball & bumper
          
          for(int k = 0; k < numBalls; k ++)
-         ball[k].draw(myBuffer);
+            ball[k].draw(myBuffer);
          
          bumper.draw(myBuffer);
          for(int i = 0; i < 7; i++)       
@@ -178,7 +189,21 @@ public class BrickLevel11 extends JPanel
          for(int i = 0; i < 4; i++) 
             rubber[i].draw(myBuffer);  
          a.draw(myBuffer);
-         b.draw(myBuffer);  
+         b.draw(myBuffer);
+         
+         if(resume)
+         {
+            int count = 0;
+            while(count < 1000000)
+            {
+               count ++;
+               label.setText("No more multiballs!");
+               repaint();
+               resume = false;
+            }
+         }
+         label.setText("");
+         
          repaint();
       }
    } 
@@ -198,6 +223,8 @@ public class BrickLevel11 extends JPanel
             right = true;
          if(e.getKeyCode()==KeyEvent.VK_SPACE)
             multiball();
+         if(e.getKeyCode()==KeyEvent.VK_T)
+            resume = true;
       }
       public void keyReleased(KeyEvent e)
       {
@@ -213,9 +240,35 @@ public class BrickLevel11 extends JPanel
    }
    public void multiball()
    {
-      for(int k = numBalls; k < numBalls + 2; k ++)
-         ball[k] = new Ball(20,300,BALL_DIAM, BALL_COLOR);
-      ball[numBalls].setdx(2);
-      numBalls += 2;
+      try
+      {
+         for(int k = numBalls; k < numBalls + 2; k ++)
+            ball[k] = new Ball(20,300,BALL_DIAM, BALL_COLOR);
+         ball[numBalls].setdx(2);
+         numBalls += 2;
+      }
+      catch(IndexOutOfBoundsException a)
+      {
+         resume = true;
+         label.setText("No more multiballs!");
+      }
+   }
+   public boolean checkLife()
+   {
+      boolean life = true;
+      for(int k = 0; k < numBalls; k ++)
+      {
+         if(ball[k].getY()-12 >= FRAME && life == true)
+            life = true;
+         else
+            life = false;
+      }
+      if(life == true)
+      {
+         life = false;
+         return true;
+      }
+      else
+         return false;
    }
 }

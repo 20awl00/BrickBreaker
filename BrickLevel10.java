@@ -52,7 +52,7 @@ public class BrickLevel10 extends JPanel
       a = new PortalBrick(20, 20);
       b = new PortalBrick(332, 20);
       c = new PortalBrick(20, 332);
-      d = new PortalBrick(332, 20);
+      d = new PortalBrick(332, 332);
       overlord = new RubberBrick(175, 200);
       for(int i = 0; i < 7; i++)
       {
@@ -95,6 +95,7 @@ public class BrickLevel10 extends JPanel
          BrickCollision.collide(b, ball);
          BrickCollision.collide(c, ball);
          BrickCollision.collide(d, ball);
+         
          BrickCollision.collide(overlord, ball);
       
          
@@ -102,6 +103,7 @@ public class BrickLevel10 extends JPanel
          b.teleport(ball);
          c.teleport(ball);
          d.teleport(ball);
+         
          if(ball.getY()-12 >= FRAME)
          {
             lives --;
@@ -124,10 +126,7 @@ public class BrickLevel10 extends JPanel
             allOk = allOk && row2[i].ok ;
          }
             
-         allOk = allOk && a.ok;
-         allOk = allOk && b.ok;
-         allOk = allOk && c.ok;
-         allOk = allOk && d.ok;
+         allOk = allOk && a.ok && b.ok && c.ok && d.ok;
            
          if(allOk)
          {

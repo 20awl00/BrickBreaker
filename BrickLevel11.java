@@ -41,7 +41,7 @@ public class BrickLevel11 extends JPanel
       myBuffer.fillRect(0, 0, FRAME,FRAME);
       
       label = new JLabel();
-      label.setFont(new Font("Handwriting - Dakota", Font.BOLD, 30));
+      label.setFont(new Font("Monotype Corsiva", Font.BOLD, 30));
       label.setForeground(Color.yellow);
       label.setBackground(Color.black);
       label.setOpaque(true);

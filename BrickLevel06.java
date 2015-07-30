@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import javax.sound.sampled.*;
+import java.io.File;
 
 public class BrickLevel06 extends JPanel
 {
@@ -15,6 +17,13 @@ public class BrickLevel06 extends JPanel
    private static final int BUMPER_X_WIDTH = 100;
    private static final int BUMPER_Y_WIDTH = 15;
    private int lives = 3;
+   
+   File file;
+   AudioInputStream stream;
+   AudioFormat format;
+   DataLine.Info info;
+   Clip clip;
+   Robot delayer;
 
    private BufferedImage myImage;
    private Graphics myBuffer;
@@ -28,12 +37,20 @@ public class BrickLevel06 extends JPanel
    
    private boolean left, right;    
    
-   public BrickLevel06()
+   public BrickLevel06() throws Exception
    {
       myImage =  new BufferedImage(FRAME, FRAME, BufferedImage.TYPE_INT_RGB);
       myBuffer = myImage.getGraphics();
       myBuffer.setColor(BACKGROUND);
       myBuffer.fillRect(0, 0, FRAME,FRAME);
+      
+      file = new File("Lose.wav");
+      stream = AudioSystem.getAudioInputStream(file);
+      format = stream.getFormat();
+      info = new DataLine.Info(Clip.class, format);
+      clip = (Clip) AudioSystem.getLine(info);
+      
+      delayer = new Robot();
       
       // create ball and jump
       ball = new Ball(20,300,BALL_DIAM,BALL_COLOR);
@@ -105,6 +122,9 @@ public class BrickLevel06 extends JPanel
                myBuffer.setColor(Color.RED.darker());
                myBuffer.drawString("YOU LOSE", 80, 150);
                timer.stop();
+               clip.start();
+               delayer.delay(2000);
+               System.exit(0);
             }
             else
                lives --;

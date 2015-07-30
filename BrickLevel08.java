@@ -16,7 +16,7 @@ public class BrickLevel08 extends JPanel
    private static final double BALL_DIAM = 24;
    private static final int BUMPER_X_WIDTH = 100;
    private static final int BUMPER_Y_WIDTH = 15;
-   private int lives = 3;
+   private int lives = LifeGetter.input("lives.txt") + 1;
    
    File file;
    AudioInputStream stream;
@@ -138,10 +138,9 @@ public class BrickLevel08 extends JPanel
             myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
             myBuffer.setColor(Color.GREEN.darker());
             myBuffer.drawString("YOU WIN", 90, 150);
+            LifeGetter.output(lives, "lives.txt");
             timer.stop();
-            clip.start();
-               delayer.delay(2000);
-               System.exit(0);
+            
          }
          
          if(ball.getdx() == 0)
@@ -184,6 +183,9 @@ public class BrickLevel08 extends JPanel
                myBuffer.setColor(Color.RED.darker());
                myBuffer.drawString("YOU LOSE", 80, 150);
                timer.stop();
+               clip.start();
+               delayer.delay(2000);
+               System.exit(0);
             }
             else
                lives --;

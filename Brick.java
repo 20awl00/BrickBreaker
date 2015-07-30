@@ -9,7 +9,7 @@ public abstract class Brick extends Bumper
    {
       super(x, y, 50, 15, c);
    } 
-   public abstract void whatever();
+   public abstract void whatever() throws Exception;
    public int getFractures()
    {
       return myFractures;

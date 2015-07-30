@@ -1,4 +1,4 @@
-//Jadon Schuler 7/16/2015
+//Jadon Schuler and Alex Lewis 7/16/2015
 
 import javax.swing.*;
 import java.awt.*;

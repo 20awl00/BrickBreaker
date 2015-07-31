@@ -7,7 +7,7 @@ public class BrickCollision
    private static double nearestY;
    public static boolean collide;  // a ball collided with
 
-   public static void collide(Brick bumper, Ball ball)
+   public static void collide(Brick bumper, Ball ball) throws Exception
    {
       // see if the ball hit the bumper!
       if(bumper.inBumper(ball))

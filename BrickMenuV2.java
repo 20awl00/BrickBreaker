@@ -20,6 +20,8 @@ public class BrickMenuV2 extends JPanel
    public BrickLevel10 level10;
    public BrickLevel11 level11;
    
+   private Timer t;
+   
    File file;
    AudioInputStream stream;
    AudioFormat format;
@@ -78,8 +80,34 @@ public class BrickMenuV2 extends JPanel
       info2 = new DataLine.Info(Clip.class, format2);
       clip2 = (Clip) AudioSystem.getLine(info2);
       clip2.open(stream2);
+      
+      try{level1 = new BrickLevel01();}
+      catch(Exception b){}
+      try{level2 = new BrickLevel02();}
+      catch(Exception b){}
+      try{level3 = new BrickLevel03();}
+      catch(Exception b){}
+      try{level4 = new BrickLevel04();}
+      catch(Exception b){}
+      try{level5 = new BrickLevel05();}
+      catch(Exception b){}
+      try{level6 = new BrickLevel06();}
+      catch(Exception b){}
+      try{level7 = new BrickLevel07();}
+      catch(Exception b){}
+      try{level8 = new BrickLevel08();}
+      catch(Exception b){}
+      try{level9 = new BrickLevel09();}
+      catch(Exception b){}
+      try{level10 = new BrickLevel10();}
+      catch(Exception b){}
+      try{level11 = new BrickLevel11();}
+      catch(Exception b){}
          
       buttonArray1[0].setEnabled(true);
+      
+      t = new Timer(500, new Listener2());
+      t.start();
    }
    
    
@@ -96,9 +124,8 @@ public class BrickMenuV2 extends JPanel
       
          switch(myX)
          {
-            case 1: 
-               try{level1 = new BrickLevel01();}
-               catch(Exception b){}
+            case 1:
+            
                try{resetClip();}
                catch(Exception a){}
                clip.start();
@@ -106,16 +133,15 @@ public class BrickMenuV2 extends JPanel
                add(level1, BorderLayout.CENTER);
                level1.requestFocus();
                level1.startTimer();
-               buttonArray1[1].setEnabled(true);
+               //buttonArray1[1].setEnabled(true);
                break;
                
             case 2:
-               try{level2 = new BrickLevel02();}
-               catch(Exception b){}
+               
                try{resetClip();}
                catch(Exception a){}
                clip2.stop();
-               try{resetClip2v1();}
+               try{resetClip2();}
                catch(Exception c){}
                clip.start();
                clip2.start();
@@ -126,12 +152,11 @@ public class BrickMenuV2 extends JPanel
                break;
                
             case 3: 
-               try{level3 = new BrickLevel03();}
-               catch(Exception b){}
+               
                try{resetClip();}
                catch(Exception a){}
                clip2.stop();
-               try{resetClip2v2();}
+               try{resetClip2();}
                catch(Exception c){}
                clip.start();
                clip2.start();
@@ -142,12 +167,11 @@ public class BrickMenuV2 extends JPanel
                break;
                
             case 4: 
-               try{level4 = new BrickLevel04();}
-               catch(Exception b){}
+               
                try{resetClip();}
                catch(Exception a){}
                clip2.stop();
-               try{resetClip2v3();}
+               try{resetClip2();}
                catch(Exception c){}
                clip.start();
                clip2.start();
@@ -158,12 +182,11 @@ public class BrickMenuV2 extends JPanel
                break;
                
             case 5:
-               try{level5 = new BrickLevel05();}
-               catch(Exception b){}
+               
                try{resetClip();}
                catch(Exception a){}
                clip2.stop();
-               try{resetClip2v4();}
+               try{resetClip2();}
                catch(Exception c){}
                clip.start();
                clip2.start();
@@ -174,12 +197,11 @@ public class BrickMenuV2 extends JPanel
                break;
                
             case 6:
-               try{level6 = new BrickLevel06();}
-               catch(Exception b){}
+               
                try{resetClip();}
                catch(Exception a){}
                clip2.stop();
-               try{resetClip2v5();}
+               try{resetClip2();}
                catch(Exception c){}
                clip.start();
                clip2.start();
@@ -190,12 +212,11 @@ public class BrickMenuV2 extends JPanel
                break;
                
             case 7:
-               try{level7 = new BrickLevel07();}
-               catch(Exception b){}
+               
                try{resetClip();}
                catch(Exception a){}
                clip2.stop();
-               try{resetClip2v6();}
+               try{resetClip2();}
                catch(Exception c){}
                clip.start();
                clip2.start();
@@ -206,12 +227,11 @@ public class BrickMenuV2 extends JPanel
                break;
                
             case 8:
-               try{level8 = new BrickLevel08();}
-               catch(Exception b){}
+               
                try{resetClip();}
                catch(Exception a){}
                clip2.stop();
-               try{resetClip2v7();}
+               try{resetClip2();}
                catch(Exception c){}
                clip.start();
                clip2.start();
@@ -222,12 +242,11 @@ public class BrickMenuV2 extends JPanel
                break;
                
             case 9:
-               try{level9 = new BrickLevel09();}
-               catch(Exception b){}
+               
                try{resetClip();}
                catch(Exception a){}
                clip2.stop();
-               try{resetClip2v8();}
+               try{resetClip2();}
                catch(Exception c){}
                clip.start();
                clip2.start();
@@ -238,12 +257,11 @@ public class BrickMenuV2 extends JPanel
                break;
                
             case 10:
-               try{level10 = new BrickLevel10();}
-               catch(Exception b){}
+               
                try{resetClip();}
                catch(Exception a){}
                clip2.stop();
-               try{resetClip2v9();}
+               try{resetClip2();}
                catch(Exception c){}
                clip.start();
                clip2.start();
@@ -254,12 +272,11 @@ public class BrickMenuV2 extends JPanel
                break;
                
             case 11:
-               try{level11 = new BrickLevel11();}
-               catch(Exception b){}
+               
                try{resetClip();}
                catch(Exception a){}
                clip2.stop();
-               try{resetClip2v10();}
+               try{resetClip2();}
                catch(Exception c){}
                clip.start();
                clip2.start();
@@ -284,17 +301,7 @@ public class BrickMenuV2 extends JPanel
       clip.open(stream);
    }
    
-   public void resetClip2v1() throws Exception
-   {
-      file2 = new File("TetrisB.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
-   }
-   
-   public void resetClip2v2() throws Exception
+   public void resetClip2() throws Exception
    {
       file2 = new File("TetrisA.wav");
       stream2 = AudioSystem.getAudioInputStream(file2);
@@ -304,83 +311,12 @@ public class BrickMenuV2 extends JPanel
       clip2.open(stream2);
    }
    
-   public void resetClip2v3() throws Exception
+   private class Listener2 implements ActionListener
    {
-      file2 = new File("TetrisB.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
-   }
-   
-   public void resetClip2v4() throws Exception
-   {
-      file2 = new File("TetrisA.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
-   }
-   
-   public void resetClip2v5() throws Exception
-   {
-      file2 = new File("TetrisB.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
-   }
-   
-   public void resetClip2v6() throws Exception
-   {
-      file2 = new File("TetrisA.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
-   }
-   
-   public void resetClip2v7() throws Exception
-   {
-      file2 = new File("TetrisB.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
-   }
-   
-   public void resetClip2v8() throws Exception
-   {
-      file2 = new File("TetrisA.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
-   }
-   
-   public void resetClip2v9() throws Exception
-   {
-      file2 = new File("TetrisB.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
-   }
-   
-   public void resetClip2v10() throws Exception
-   {
-      file2 = new File("TetrisB.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
+      public void actionPerformed(ActionEvent e)
+      {
+            if(level1.hasWon == true)
+               buttonArray1[1].setEnabled(true);
+      }
    }
 }

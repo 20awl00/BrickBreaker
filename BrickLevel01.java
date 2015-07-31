@@ -109,13 +109,9 @@ public class BrickLevel01 extends JPanel
          BumperCollision.collide(bumper, ball);
          for(int i = 0; i < 7; i++)
          {
-            try
-            {
             BrickCollision.collide(row1[i], ball);
             BrickCollision.collide(row2[i], ball);
             BrickCollision.collide(row3[i], ball);
-            }
-            catch(Exception a){}
          }
          
          if(ball.getY()-200 >= FRAME)

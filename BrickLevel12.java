@@ -53,13 +53,13 @@ public class BrickLevel12 extends JPanel
       
       try
       {
-      file = new File("Lose.wav");
-      stream = AudioSystem.getAudioInputStream(file);
-      format = stream.getFormat();
-      info = new DataLine.Info(Clip.class, format);
-      clip = (Clip) AudioSystem.getLine(info);
+         file = new File("Lose.wav");
+         stream = AudioSystem.getAudioInputStream(file);
+         format = stream.getFormat();
+         info = new DataLine.Info(Clip.class, format);
+         clip = (Clip) AudioSystem.getLine(info);
       
-      delayer = new Robot();
+         delayer = new Robot();
       }
       catch(Exception a){}
       
@@ -148,7 +148,6 @@ public class BrickLevel12 extends JPanel
          
          if(checkLife())
          {
-            lives --;
             ball[numBalls - 1].setX(20);
             ball[numBalls - 1].setY(300);
             ball[numBalls - 1].setdx(3);
@@ -163,6 +162,8 @@ public class BrickLevel12 extends JPanel
                delayer.delay(2000);
                System.exit(0);
             }
+            else
+               lives --;
          }
          
          boolean allOk = true ;
@@ -292,7 +293,6 @@ public class BrickLevel12 extends JPanel
       }
       if(life == true)
       {
-         life = false;
          return true;
       }
       else

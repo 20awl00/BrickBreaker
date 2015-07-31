@@ -154,7 +154,7 @@ public class BrickLevel11 extends JPanel
             ball[numBalls - 1].setY(300);
             ball[numBalls - 1].setdx(3);
             ball[numBalls - 1].setdy(-2);
-            if (lives < 1)
+            if (lives <= 0)
             {
                myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
                myBuffer.setColor(Color.RED.darker());

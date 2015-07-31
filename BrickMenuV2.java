@@ -124,7 +124,7 @@ public class BrickMenuV2 extends JPanel
       {
          for(int i = 0; i < 6; i ++)
             buttonArray1[i].setEnabled(true);
-         for(int i = 0; i < x - 7; i ++)
+         for(int i = 0; i <= x - 7; i ++)
             buttonArray2[i].setEnabled(true);
       }
             
@@ -149,6 +149,7 @@ public class BrickMenuV2 extends JPanel
          {
             case 1:
             
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -160,6 +161,7 @@ public class BrickMenuV2 extends JPanel
                
             case 2:
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -171,6 +173,7 @@ public class BrickMenuV2 extends JPanel
                
             case 3: 
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -182,6 +185,7 @@ public class BrickMenuV2 extends JPanel
                
             case 4: 
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -193,6 +197,7 @@ public class BrickMenuV2 extends JPanel
                
             case 5:
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -204,6 +209,7 @@ public class BrickMenuV2 extends JPanel
                
             case 6:
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -215,6 +221,7 @@ public class BrickMenuV2 extends JPanel
                
             case 7:
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -226,6 +233,7 @@ public class BrickMenuV2 extends JPanel
                
             case 8:
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -237,6 +245,7 @@ public class BrickMenuV2 extends JPanel
                
             case 9:
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -248,6 +257,7 @@ public class BrickMenuV2 extends JPanel
                
             case 10:
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -259,6 +269,7 @@ public class BrickMenuV2 extends JPanel
                
             case 11:
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -269,6 +280,7 @@ public class BrickMenuV2 extends JPanel
                
             case 12:
                
+               resetLevels();
                resetClips();
                clip.start();
                clip2.start();
@@ -362,8 +374,30 @@ public class BrickMenuV2 extends JPanel
          if(level11.hasWon == true)
          {
             LifeGetter.save(12, s);
-            buttonArray2[4].setEnabled(true);
+            buttonArray2[5].setEnabled(true);
          }
       }
+   }
+   
+   public void resetLevels()
+   {
+   
+      try
+      {
+         level1 = new BrickLevel01();
+         level2 = new BrickLevel02();
+         level3 = new BrickLevel03();
+         level4 = new BrickLevel04();
+         level5 = new BrickLevel05();
+         level6 = new BrickLevel06();
+         level7 = new BrickLevel07();
+         level8 = new BrickLevel08();
+         level9 = new BrickLevel09();
+         level10 = new BrickLevel10();
+         level11 = new BrickLevel11();
+         level12 = new BrickLevel12();
+      }
+      catch(Exception c){}
+   
    }
 }

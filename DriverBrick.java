@@ -61,7 +61,7 @@ public class DriverBrick
       else
          frame.setContentPane(new BrickPanel()); */
       
-      BrickLevel11 level = new BrickLevel11();
+      BrickLevel12 level = new BrickLevel12();
       frame.setContentPane(level);
                //level.requestFocus();
       level.startTimer();

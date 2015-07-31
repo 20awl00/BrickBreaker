@@ -40,7 +40,9 @@ public class BrickLevel11 extends JPanel
    
    private int numBalls = 1;
    
-   private boolean left, right, resume;    
+   private boolean left, right, resume;
+   
+   public boolean hasWon = false;
    
    public BrickLevel11() throws Exception
    {
@@ -49,6 +51,8 @@ public class BrickLevel11 extends JPanel
       myBuffer.setColor(BACKGROUND);
       myBuffer.fillRect(0, 0, FRAME,FRAME);
       
+      try
+      {
       file = new File("Lose.wav");
       stream = AudioSystem.getAudioInputStream(file);
       format = stream.getFormat();
@@ -56,6 +60,8 @@ public class BrickLevel11 extends JPanel
       clip = (Clip) AudioSystem.getLine(info);
       
       delayer = new Robot();
+      }
+      catch(Exception a){}
       
       label = new JLabel();
       label.setFont(new Font("Monotype Corsiva", Font.BOLD, 30));
@@ -176,6 +182,7 @@ public class BrickLevel11 extends JPanel
             myBuffer.setColor(Color.GREEN.darker());
             myBuffer.drawString("YOU WIN", 90, 150);
             LifeGetter.output(lives, "lives.txt");
+            hasWon = true;
             timer.stop();
          }
          

@@ -38,7 +38,9 @@ public class BrickLevel10 extends JPanel
    private Bumper bumper;
    private Timer timer;
    
-   private boolean left, right;    
+   private boolean left, right;
+   
+   public boolean hasWon = false;
    
    public BrickLevel10() throws Exception
    {
@@ -47,6 +49,8 @@ public class BrickLevel10 extends JPanel
       myBuffer.setColor(BACKGROUND);
       myBuffer.fillRect(0, 0, FRAME,FRAME);
       
+      try
+      {
       file = new File("Lose.wav");
       stream = AudioSystem.getAudioInputStream(file);
       format = stream.getFormat();
@@ -54,6 +58,8 @@ public class BrickLevel10 extends JPanel
       clip = (Clip) AudioSystem.getLine(info);
       
       delayer = new Robot();
+      }
+      catch(Exception a){}
       
       // create ball and jump
       ball = new Ball(20,300,BALL_DIAM,BALL_COLOR);
@@ -154,6 +160,7 @@ public class BrickLevel10 extends JPanel
             myBuffer.setColor(Color.GREEN.darker());
             myBuffer.drawString("YOU WIN", 90, 150);
             LifeGetter.output(lives, "lives.txt");
+            hasWon = true;
             timer.stop();
          }
          if(ball.getdx() == 0)

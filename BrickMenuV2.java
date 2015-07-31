@@ -19,6 +19,7 @@ public class BrickMenuV2 extends JPanel
    public BrickLevel09 level9;
    public BrickLevel10 level10;
    public BrickLevel11 level11;
+   public BrickLevel12 level12;
    
    private Timer t;
    
@@ -37,14 +38,14 @@ public class BrickMenuV2 extends JPanel
    JButton[] buttonArray1;
    JButton[] buttonArray2;
       
-   public BrickMenuV2() throws Exception
+   public BrickMenuV2()
    {
       setLayout(new BorderLayout());
       setOpaque(true);
       setBackground(Color.black);
       
       buttonArray1 = new JButton[6];
-      buttonArray2 = new JButton[5];
+      buttonArray2 = new JButton[6];
       
       JPanel subpanel1 = new JPanel();
       subpanel1.setLayout(new FlowLayout());
@@ -58,7 +59,7 @@ public class BrickMenuV2 extends JPanel
       add(subpanel1, BorderLayout.NORTH);
       
       JPanel subpanel2 = new JPanel();
-      for(int i = 0; i < 5; i ++)
+      for(int i = 0; i < 6; i ++)
       {
          buttonArray2[i] = new JButton("Level " + (i + 7));
          buttonArray2[i].addActionListener(new Listener(i + 7));
@@ -67,6 +68,8 @@ public class BrickMenuV2 extends JPanel
       }
       add(subpanel2, BorderLayout.SOUTH);
       
+      try
+      {
       file = new File("Start.wav");
       stream = AudioSystem.getAudioInputStream(file);
       format = stream.getFormat();
@@ -80,6 +83,8 @@ public class BrickMenuV2 extends JPanel
       info2 = new DataLine.Info(Clip.class, format2);
       clip2 = (Clip) AudioSystem.getLine(info2);
       clip2.open(stream2);
+      }
+      catch(Exception b){}
       
       try{level1 = new BrickLevel01();}
       catch(Exception b){}
@@ -103,8 +108,11 @@ public class BrickMenuV2 extends JPanel
       catch(Exception b){}
       try{level11 = new BrickLevel11();}
       catch(Exception b){}
+      try{level12 = new BrickLevel12();}
+      catch(Exception b){}
          
       buttonArray1[0].setEnabled(true);
+      buttonArray2[5].setEnabled(true);
       
       t = new Timer(500, new Listener2());
       t.start();
@@ -126,8 +134,7 @@ public class BrickMenuV2 extends JPanel
          {
             case 1:
             
-               try{resetClip();}
-               catch(Exception a){}
+               resetClips();
                clip.start();
                clip2.start();
                add(level1, BorderLayout.CENTER);
@@ -138,151 +145,132 @@ public class BrickMenuV2 extends JPanel
                
             case 2:
                
-               try{resetClip();}
-               catch(Exception a){}
+               resetClips();
                clip2.stop();
-               try{resetClip2();}
-               catch(Exception c){}
                clip.start();
                clip2.start();
                add(level2, BorderLayout.CENTER);
                level2.requestFocus();
                level2.startTimer();
-               buttonArray1[2].setEnabled(true);
+               //buttonArray1[2].setEnabled(true);
                break;
                
             case 3: 
                
-               try{resetClip();}
-               catch(Exception a){}
+               resetClips();
                clip2.stop();
-               try{resetClip2();}
-               catch(Exception c){}
                clip.start();
                clip2.start();
                add(level3, BorderLayout.CENTER);
                level3.requestFocus();
                level3.startTimer();
-               buttonArray1[3].setEnabled(true);
+               //buttonArray1[3].setEnabled(true);
                break;
                
             case 4: 
                
-               try{resetClip();}
-               catch(Exception a){}
+               resetClips();
                clip2.stop();
-               try{resetClip2();}
-               catch(Exception c){}
                clip.start();
                clip2.start();
                add(level4, BorderLayout.CENTER);
                level4.requestFocus();
                level4.startTimer();
-               buttonArray1[4].setEnabled(true);
+               //buttonArray1[4].setEnabled(true);
                break;
                
             case 5:
                
-               try{resetClip();}
-               catch(Exception a){}
+               resetClips();
                clip2.stop();
-               try{resetClip2();}
-               catch(Exception c){}
                clip.start();
                clip2.start();
                add(level5, BorderLayout.CENTER);
                level5.requestFocus();
                level5.startTimer();
-               buttonArray1[5].setEnabled(true);
+               //buttonArray1[5].setEnabled(true);
                break;
                
             case 6:
                
-               try{resetClip();}
-               catch(Exception a){}
+               resetClips();
                clip2.stop();
-               try{resetClip2();}
-               catch(Exception c){}
                clip.start();
                clip2.start();
                add(level6, BorderLayout.CENTER);
                level6.requestFocus();
                level6.startTimer();
-               buttonArray2[0].setEnabled(true);
+               //buttonArray2[0].setEnabled(true);
                break;
                
             case 7:
                
-               try{resetClip();}
-               catch(Exception a){}
+               resetClips();
                clip2.stop();
-               try{resetClip2();}
-               catch(Exception c){}
                clip.start();
                clip2.start();
                add(level7, BorderLayout.CENTER);
                level7.requestFocus();
                level7.startTimer();
-               buttonArray2[1].setEnabled(true);
+               //buttonArray2[1].setEnabled(true);
                break;
                
             case 8:
                
-               try{resetClip();}
-               catch(Exception a){}
+               resetClips();
                clip2.stop();
-               try{resetClip2();}
-               catch(Exception c){}
                clip.start();
                clip2.start();
                add(level8, BorderLayout.CENTER);
                level8.requestFocus();
                level8.startTimer();
-               buttonArray2[2].setEnabled(true);
+               //buttonArray2[2].setEnabled(true);
                break;
                
             case 9:
                
-               try{resetClip();}
-               catch(Exception a){}
+               resetClips();
                clip2.stop();
-               try{resetClip2();}
-               catch(Exception c){}
                clip.start();
                clip2.start();
                add(level9, BorderLayout.CENTER);
                level9.requestFocus();
                level9.startTimer();
-               buttonArray2[3].setEnabled(true);
+               //buttonArray2[3].setEnabled(true);
                break;
                
             case 10:
                
-               try{resetClip();}
-               catch(Exception a){}
+               resetClips();
                clip2.stop();
-               try{resetClip2();}
-               catch(Exception c){}
                clip.start();
                clip2.start();
                add(level10, BorderLayout.CENTER);
                level10.requestFocus();
                level10.startTimer();
-               buttonArray2[4].setEnabled(true);
+               //buttonArray2[4].setEnabled(true);
                break;
                
             case 11:
                
-               try{resetClip();}
-               catch(Exception a){}
                clip2.stop();
-               try{resetClip2();}
-               catch(Exception c){}
+               resetClips();
                clip.start();
                clip2.start();
                add(level11, BorderLayout.CENTER);
                level11.requestFocus();
                level11.startTimer();
+               break;
+               
+            case 12:
+               
+               clip2.stop();
+               resetClips();
+               clip.start();
+               clip2.start();
+               add(level12, BorderLayout.CENTER);
+               level12.requestFocus();
+               level12.startTimer();
                break;
                
          }
@@ -291,24 +279,25 @@ public class BrickMenuV2 extends JPanel
       }
    }
    
-   public void resetClip() throws Exception
+   public void resetClips()
    {
+      try
+      {
       file = new File("Start.wav");
       stream = AudioSystem.getAudioInputStream(file);
       format = stream.getFormat();
       info = new DataLine.Info(Clip.class, format);
       clip = (Clip) AudioSystem.getLine(info);
       clip.open(stream);
-   }
-   
-   public void resetClip2() throws Exception
-   {
+      
       file2 = new File("TetrisA.wav");
       stream2 = AudioSystem.getAudioInputStream(file2);
       format2 = stream2.getFormat();
       info2 = new DataLine.Info(Clip.class, format2);
       clip2 = (Clip) AudioSystem.getLine(info2);
       clip2.open(stream2);
+      }
+      catch(Exception j){}
    }
    
    private class Listener2 implements ActionListener

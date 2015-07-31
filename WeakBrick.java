@@ -10,8 +10,11 @@ public class WeakBrick extends Brick
    {
       super(x, y, Color.ORANGE);
    } 
-   public void whatever() throws Exception
+   public void whatever()
    {
+   try
+      {
+
       File file = new File("BrickBreak.wav");
       AudioInputStream stream = AudioSystem.getAudioInputStream(file);
       AudioFormat format = stream.getFormat();
@@ -19,7 +22,8 @@ public class WeakBrick extends Brick
       Clip clip = (Clip) AudioSystem.getLine(info);
       clip.open(stream);
       clip.start();
-      
+      }
+      catch(Exception b){}
       if(getFractures() >= 1);
       {
          setX(500);

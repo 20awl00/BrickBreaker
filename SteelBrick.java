@@ -6,28 +6,39 @@ import java.io.File;
 
 public class SteelBrick extends Brick
 {
+   private File file;
+   private AudioInputStream stream;
+   private AudioFormat format;
+   private DataLine.Info info;
+   private Clip clip;
    public SteelBrick(int x, int y)
    {
       super(x, y, Color.GRAY.darker());
    } 
-   public void whatever() throws Exception
+   public void whatever()
    {
-      File file = new File("SteelBrickSound.wav");
-      AudioInputStream stream = AudioSystem.getAudioInputStream(file);
-      AudioFormat format = stream.getFormat();
-      DataLine.Info info = new DataLine.Info(Clip.class, format);
-      Clip clip = (Clip) AudioSystem.getLine(info);
-      clip.open(stream);
-      
-      if(getFractures() >= 5)
+      try
       {
-         file = new File("BrickBreak.wav");
+         file = new File("SteelBrickSound.wav");
          stream = AudioSystem.getAudioInputStream(file);
          format = stream.getFormat();
          info = new DataLine.Info(Clip.class, format);
          clip = (Clip) AudioSystem.getLine(info);
          clip.open(stream);
-         
+      }
+      catch(Exception b){}
+      if(getFractures() >= 5)
+      {
+      try
+      {
+            file = new File("BrickBreak.wav");
+            stream = AudioSystem.getAudioInputStream(file);
+            format = stream.getFormat();
+            info = new DataLine.Info(Clip.class, format);
+            clip = (Clip) AudioSystem.getLine(info);
+            clip.open(stream);
+      }
+      catch(Exception b){}
          setX(500);
          setY(500);
          
@@ -38,19 +49,7 @@ public class SteelBrick extends Brick
       
       else if(getFractures() == 4)
       {
-         file = new File("BrickBreak.wav");
-         stream = AudioSystem.getAudioInputStream(file);
-         format = stream.getFormat();
-         info = new DataLine.Info(Clip.class, format);
-         clip = (Clip) AudioSystem.getLine(info);
-         clip.open(stream);
-         
-         setColor(Color.ORANGE);
-         
-         clip.start();
-      }
-      
-      else if(getFractures() == 3)
+      try
       {
          file = new File("BrickBreak.wav");
          stream = AudioSystem.getAudioInputStream(file);
@@ -58,7 +57,25 @@ public class SteelBrick extends Brick
          info = new DataLine.Info(Clip.class, format);
          clip = (Clip) AudioSystem.getLine(info);
          clip.open(stream);
+         }
+      catch(Exception b){}
+         setColor(Color.ORANGE);
          
+         clip.start();
+      }
+      
+      else if(getFractures() == 3)
+      {
+      try
+      {
+         file = new File("BrickBreak.wav");
+         stream = AudioSystem.getAudioInputStream(file);
+         format = stream.getFormat();
+         info = new DataLine.Info(Clip.class, format);
+         clip = (Clip) AudioSystem.getLine(info);
+         clip.open(stream);
+         }
+      catch(Exception b){}
          setColor(Color.YELLOW);
          
          clip.start();

@@ -13,8 +13,11 @@ public class PortalBrick extends WeakBrick
       setColor(Color.BLUE.darker());
    } 
    
-   public void whatever() throws Exception
+   public void whatever()
    {
+   try
+      {
+
       File file = new File("Mana_Void.wav");
       AudioInputStream stream = AudioSystem.getAudioInputStream(file);
       AudioFormat format = stream.getFormat();
@@ -22,7 +25,8 @@ public class PortalBrick extends WeakBrick
       Clip clip = (Clip) AudioSystem.getLine(info);
       clip.open(stream);
       clip.start();
-      
+      }
+      catch(Exception b){}
       if(getFractures() >= 1);
       {
          setX(500);

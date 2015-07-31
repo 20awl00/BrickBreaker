@@ -10,8 +10,11 @@ public class MedBrick extends Brick
    {
       super(x, y, Color.GREEN);
    } 
-   public void whatever() throws Exception
+   public void whatever()
    {
+   try
+      {
+
       File file = new File("BrickBreak.wav");
       AudioInputStream stream = AudioSystem.getAudioInputStream(file);
       AudioFormat format = stream.getFormat();
@@ -19,7 +22,8 @@ public class MedBrick extends Brick
       Clip clip = (Clip) AudioSystem.getLine(info);
       clip.open(stream);
       clip.start();
-      
+      }
+      catch(Exception b){}
       if(getFractures() >= 3)
       {
          setX(500);

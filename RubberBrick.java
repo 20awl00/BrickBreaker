@@ -10,8 +10,11 @@ public class RubberBrick extends Brick
    {
       super(x, y, new Color(255, 105, 180));
    } 
-   public void whatever() throws Exception
+   public void whatever()
    {
+   try
+      {
+
       File file = new File("RubberBrick.wav");
       AudioInputStream stream = AudioSystem.getAudioInputStream(file);
       AudioFormat format = stream.getFormat();
@@ -19,7 +22,8 @@ public class RubberBrick extends Brick
       Clip clip = (Clip) AudioSystem.getLine(info);
       clip.open(stream);
       clip.start();
-            
+      }
+      catch(Exception b){}     
       if(getFractures() >= 1)
       {
       }

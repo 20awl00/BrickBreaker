@@ -16,7 +16,7 @@ public class BrickLevel01 extends JPanel
    private static final double BALL_DIAM = 24;
    private static final int BUMPER_X_WIDTH = 100;
    private static final int BUMPER_Y_WIDTH = 15;
-   private int lives = 5;
+   private int lives = 3;
    
    File file;
    AudioInputStream stream;

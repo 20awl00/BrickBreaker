@@ -36,6 +36,62 @@ public class LifeGetter
       infile.close();
       return lives;
    }
+   
+   
+   
+   
+   
+   
+   public static int load(String s)
+   {
+      Scanner infile = null;
+      try
+      {
+         infile = new Scanner(new File(s + ".txt"));
+         return infile.nextInt();
+      }
+      catch(FileNotFoundException e)
+      {
+         createNew(s);
+      }
+      try
+      {
+         infile = new Scanner(new File(s + ".txt"));
+      }
+      catch(FileNotFoundException e)
+      {
+         System.exit(0);
+      }
+      return infile.nextInt();
+   }
+   
+   public static void save(int level, String s)
+   {
+      PrintStream outfile = null;
+      try
+      {
+         outfile = new PrintStream(new FileOutputStream(s + ".txt"));
+         outfile.println("" + level);
+      }
+      
+      catch(FileNotFoundException e)
+      {
+         JOptionPane.showMessageDialog(null,"The file could not be created.");
+      }
+   }
+   
+   private static void createNew(String s)
+   {
+      try
+      {
+      System.setOut(new PrintStream(new FileOutputStream(s + ".txt")));
+      System.out.println("1");
+      }
+      catch(FileNotFoundException e){}
+   }
+   
+   
+   
 }
    
    

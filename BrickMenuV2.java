@@ -23,6 +23,8 @@ public class BrickMenuV2 extends JPanel
    
    private Timer t;
    
+   String s;
+   
    File file;
    AudioInputStream stream;
    AudioFormat format;
@@ -70,19 +72,19 @@ public class BrickMenuV2 extends JPanel
       
       try
       {
-      file = new File("Start.wav");
-      stream = AudioSystem.getAudioInputStream(file);
-      format = stream.getFormat();
-      info = new DataLine.Info(Clip.class, format);
-      clip = (Clip) AudioSystem.getLine(info);
-      clip.open(stream);
+         file = new File("Start.wav");
+         stream = AudioSystem.getAudioInputStream(file);
+         format = stream.getFormat();
+         info = new DataLine.Info(Clip.class, format);
+         clip = (Clip) AudioSystem.getLine(info);
+         clip.open(stream);
       
-      file2 = new File("trololo.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
+         file2 = new File("trololo.wav");
+         stream2 = AudioSystem.getAudioInputStream(file2);
+         format2 = stream2.getFormat();
+         info2 = new DataLine.Info(Clip.class, format2);
+         clip2 = (Clip) AudioSystem.getLine(info2);
+         clip2.open(stream2);
       }
       catch(Exception b){}
       
@@ -112,6 +114,20 @@ public class BrickMenuV2 extends JPanel
       catch(Exception b){}
          
       buttonArray1[0].setEnabled(true);
+      
+      s = JOptionPane.showInputDialog("Enter name:");
+      int x = LifeGetter.load(s);
+      if(x <= 6)
+         for(int i = 0; i < x; i ++)
+            buttonArray1[i].setEnabled(true);
+      else
+      {
+         for(int i = 0; i < 6; i ++)
+            buttonArray1[i].setEnabled(true);
+         for(int i = 0; i < x - 7; i ++)
+            buttonArray2[i].setEnabled(true);
+      }
+            
       
       t = new Timer(500, new Listener2());
       t.start();
@@ -145,7 +161,6 @@ public class BrickMenuV2 extends JPanel
             case 2:
                
                resetClips();
-               clip2.stop();
                clip.start();
                clip2.start();
                add(level2, BorderLayout.CENTER);
@@ -157,7 +172,6 @@ public class BrickMenuV2 extends JPanel
             case 3: 
                
                resetClips();
-               clip2.stop();
                clip.start();
                clip2.start();
                add(level3, BorderLayout.CENTER);
@@ -169,7 +183,6 @@ public class BrickMenuV2 extends JPanel
             case 4: 
                
                resetClips();
-               clip2.stop();
                clip.start();
                clip2.start();
                add(level4, BorderLayout.CENTER);
@@ -181,7 +194,6 @@ public class BrickMenuV2 extends JPanel
             case 5:
                
                resetClips();
-               clip2.stop();
                clip.start();
                clip2.start();
                add(level5, BorderLayout.CENTER);
@@ -193,7 +205,6 @@ public class BrickMenuV2 extends JPanel
             case 6:
                
                resetClips();
-               clip2.stop();
                clip.start();
                clip2.start();
                add(level6, BorderLayout.CENTER);
@@ -205,7 +216,6 @@ public class BrickMenuV2 extends JPanel
             case 7:
                
                resetClips();
-               clip2.stop();
                clip.start();
                clip2.start();
                add(level7, BorderLayout.CENTER);
@@ -217,7 +227,6 @@ public class BrickMenuV2 extends JPanel
             case 8:
                
                resetClips();
-               clip2.stop();
                clip.start();
                clip2.start();
                add(level8, BorderLayout.CENTER);
@@ -229,7 +238,6 @@ public class BrickMenuV2 extends JPanel
             case 9:
                
                resetClips();
-               clip2.stop();
                clip.start();
                clip2.start();
                add(level9, BorderLayout.CENTER);
@@ -241,7 +249,6 @@ public class BrickMenuV2 extends JPanel
             case 10:
                
                resetClips();
-               clip2.stop();
                clip.start();
                clip2.start();
                add(level10, BorderLayout.CENTER);
@@ -252,7 +259,6 @@ public class BrickMenuV2 extends JPanel
                
             case 11:
                
-               clip2.stop();
                resetClips();
                clip.start();
                clip2.start();
@@ -263,7 +269,6 @@ public class BrickMenuV2 extends JPanel
                
             case 12:
                
-               clip2.stop();
                resetClips();
                clip.start();
                clip2.start();
@@ -280,21 +285,22 @@ public class BrickMenuV2 extends JPanel
    
    public void resetClips()
    {
+      clip2.stop();
       try
       {
-      file = new File("Start.wav");
-      stream = AudioSystem.getAudioInputStream(file);
-      format = stream.getFormat();
-      info = new DataLine.Info(Clip.class, format);
-      clip = (Clip) AudioSystem.getLine(info);
-      clip.open(stream);
+         file = new File("Start.wav");
+         stream = AudioSystem.getAudioInputStream(file);
+         format = stream.getFormat();
+         info = new DataLine.Info(Clip.class, format);
+         clip = (Clip) AudioSystem.getLine(info);
+         clip.open(stream);
       
-      file2 = new File("TetrisA.wav");
-      stream2 = AudioSystem.getAudioInputStream(file2);
-      format2 = stream2.getFormat();
-      info2 = new DataLine.Info(Clip.class, format2);
-      clip2 = (Clip) AudioSystem.getLine(info2);
-      clip2.open(stream2);
+         file2 = new File("TetrisA.wav");
+         stream2 = AudioSystem.getAudioInputStream(file2);
+         format2 = stream2.getFormat();
+         info2 = new DataLine.Info(Clip.class, format2);
+         clip2 = (Clip) AudioSystem.getLine(info2);
+         clip2.open(stream2);
       }
       catch(Exception j){}
    }
@@ -303,8 +309,61 @@ public class BrickMenuV2 extends JPanel
    {
       public void actionPerformed(ActionEvent e)
       {
-            if(level1.hasWon == true)
-               buttonArray1[1].setEnabled(true);
+         if(level1.hasWon == true)
+         {
+            LifeGetter.save(2, s);
+            buttonArray1[1].setEnabled(true);
+         }
+         if(level2.hasWon == true)
+         {
+            LifeGetter.save(3, s);
+            buttonArray1[2].setEnabled(true);
+         }
+         if(level3.hasWon == true)
+         {
+            LifeGetter.save(4, s);
+            buttonArray1[3].setEnabled(true);
+         }
+         if(level4.hasWon == true)
+         {
+            LifeGetter.save(5, s);
+            buttonArray1[4].setEnabled(true);
+         }
+         if(level5.hasWon == true)
+         {
+            LifeGetter.save(6, s);
+            buttonArray1[5].setEnabled(true);
+         }
+         if(level6.hasWon == true)
+         {
+            LifeGetter.save(7, s);
+            buttonArray2[0].setEnabled(true);
+         }
+         if(level7.hasWon == true)
+         {
+            LifeGetter.save(8, s);
+            buttonArray2[1].setEnabled(true);
+         }
+         if(level8.hasWon == true)
+         {
+            LifeGetter.save(9, s);
+            buttonArray2[2].setEnabled(true);
+         }
+         if(level9.hasWon == true)
+         {
+            LifeGetter.save(10, s);
+            buttonArray2[3].setEnabled(true);
+         }
+         if(level10.hasWon == true)
+         {
+            LifeGetter.save(11, s);
+            buttonArray2[4].setEnabled(true);
+         }
+         if(level11.hasWon == true)
+         {
+            LifeGetter.save(12, s);
+            buttonArray2[4].setEnabled(true);
+         }
       }
    }
 }

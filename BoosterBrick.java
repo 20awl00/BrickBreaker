@@ -7,7 +7,9 @@ public class BoosterBrick extends Brick
    {
       super(x, y, Color.RED);
    } 
-   public void whatever() throws Exception
+   public void whatever()
+   {
+   try
    {
       File file = new File("Shotgun_Blast-JimRogers-1914772763.wav");
       AudioInputStream stream = AudioSystem.getAudioInputStream(file);
@@ -16,7 +18,10 @@ public class BoosterBrick extends Brick
       Clip clip = (Clip) AudioSystem.getLine(info);
       clip.open(stream);
       clip.start();
-      
+    } 
+    catch(Exception e)
+    {
+    }  
       if(getFractures() >= 2);
       {
          setX(500);

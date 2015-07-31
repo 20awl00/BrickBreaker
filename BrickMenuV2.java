@@ -112,7 +112,6 @@ public class BrickMenuV2 extends JPanel
       catch(Exception b){}
          
       buttonArray1[0].setEnabled(true);
-      buttonArray2[5].setEnabled(true);
       
       t = new Timer(500, new Listener2());
       t.start();

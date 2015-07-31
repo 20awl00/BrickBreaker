@@ -92,8 +92,7 @@ public class BrickLevel12 extends JPanel
          booster[i] = new BoosterBrick(i*52+20, 70);
       }
       for(int i = 0; i < 2; i++)
-         rubber[i] = new RubberBrick(i * 112 + 120, 250);
-   
+         rubber[i] = new RubberBrick(i * 112 + 120, 250);   
       timer = new Timer(6, new Listener());
       //timer.start();
       

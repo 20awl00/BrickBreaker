@@ -89,10 +89,10 @@ public class BrickLevel12 extends JPanel
       for(int i = 0; i < 7; i++)
       {
          row1[i] = new MedBrick(i*52+20, 40);
-         booster[i] = new BoosterBrick(i*52+50, 70);
+         booster[i] = new BoosterBrick(i*52+20, 70);
       }
-      for(int i = 0; i < 4; i++)
-         rubber[i] = new RubberBrick(i * 105 + 100, 320);
+      for(int i = 0; i < 2; i++)
+         rubber[i] = new RubberBrick(i * 112 + 120, 250);
    
       timer = new Timer(6, new Listener());
       //timer.start();
@@ -214,7 +214,7 @@ public class BrickLevel12 extends JPanel
             row1[i].draw(myBuffer);
             booster[i].draw(myBuffer);
          }
-         for(int i = 0; i < 4; i++) 
+         for(int i = 0; i < 2; i++) 
             rubber[i].draw(myBuffer);  
          a.draw(myBuffer);
          b.draw(myBuffer);

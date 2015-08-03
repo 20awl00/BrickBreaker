@@ -34,7 +34,7 @@ public class BrickLevel05 extends JPanel
    private Bumper bumper;
    private Timer timer;
    
-   private boolean left, right;
+   private boolean left, right, pause;
    
    public boolean hasWon = false;  
    
@@ -204,6 +204,20 @@ public class BrickLevel05 extends JPanel
             left = true;
          if(e.getKeyCode()==KeyEvent.VK_RIGHT)
             right = true;
+         if(e.getKeyCode()==KeyEvent.VK_P)
+            if(pause == false)
+            {
+               myBuffer.setColor(Color.yellow);
+               myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
+               myBuffer.drawString("Game Paused", 60, 250);
+               timer.stop();
+               pause = true;
+            }
+            else
+            {
+               timer.start();
+               pause = false;
+            }
       }
       public void keyReleased(KeyEvent e)
       {

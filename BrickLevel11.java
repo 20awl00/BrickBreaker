@@ -40,7 +40,7 @@ public class BrickLevel11 extends JPanel
    
    private int numBalls = 1;
    
-   private boolean left, right, resume;
+   private boolean left, right, resume, pause;
    
    public boolean hasWon = false;
    
@@ -254,6 +254,20 @@ public class BrickLevel11 extends JPanel
             multiball();
          if(e.getKeyCode()==KeyEvent.VK_T)
             resume = true;
+         if(e.getKeyCode()==KeyEvent.VK_P)
+            if(pause == false)
+            {
+               myBuffer.setColor(Color.yellow);
+               myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
+               myBuffer.drawString("Game Paused", 60, 250);
+               timer.stop();
+               pause = true;
+            }
+            else
+            {
+               timer.start();
+               pause = false;
+            }
       }
       public void keyReleased(KeyEvent e)
       {

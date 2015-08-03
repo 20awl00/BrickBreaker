@@ -31,7 +31,7 @@ public class SteelBrick extends Brick
       {
       try
       {
-            file = new File("BrickBreak.wav");
+            file = new File("Bomb.wav");
             stream = AudioSystem.getAudioInputStream(file);
             format = stream.getFormat();
             info = new DataLine.Info(Clip.class, format);
@@ -51,7 +51,7 @@ public class SteelBrick extends Brick
       {
       try
       {
-         file = new File("BrickBreak.wav");
+         file = new File("Bomb.wav");
          stream = AudioSystem.getAudioInputStream(file);
          format = stream.getFormat();
          info = new DataLine.Info(Clip.class, format);
@@ -68,7 +68,7 @@ public class SteelBrick extends Brick
       {
       try
       {
-         file = new File("BrickBreak.wav");
+         file = new File("Bomb.wav");
          stream = AudioSystem.getAudioInputStream(file);
          format = stream.getFormat();
          info = new DataLine.Info(Clip.class, format);

@@ -20,6 +20,7 @@ public class BrickMenuV2 extends JPanel
    public BrickLevel10 level10;
    public BrickLevel11 level11;
    public BrickLevel12 level12;
+   public Demo demo;
    
    private Timer t;
    
@@ -88,49 +89,52 @@ public class BrickMenuV2 extends JPanel
       }
       catch(Exception b){}
       
-      try{level1 = new BrickLevel01();}
-      catch(Exception b){}
-      try{level2 = new BrickLevel02();}
-      catch(Exception b){}
-      try{level3 = new BrickLevel03();}
-      catch(Exception b){}
-      try{level4 = new BrickLevel04();}
-      catch(Exception b){}
-      try{level5 = new BrickLevel05();}
-      catch(Exception b){}
-      try{level6 = new BrickLevel06();}
-      catch(Exception b){}
-      try{level7 = new BrickLevel07();}
-      catch(Exception b){}
-      try{level8 = new BrickLevel08();}
-      catch(Exception b){}
-      try{level9 = new BrickLevel09();}
-      catch(Exception b){}
-      try{level10 = new BrickLevel10();}
-      catch(Exception b){}
-      try{level11 = new BrickLevel11();}
-      catch(Exception b){}
-      try{level12 = new BrickLevel12();}
+      try
+      {
+         level1 = new BrickLevel01();
+         level2 = new BrickLevel02();
+         level3 = new BrickLevel03();
+         level4 = new BrickLevel04();
+         level5 = new BrickLevel05();
+         level6 = new BrickLevel06();
+         level7 = new BrickLevel07();
+         level8 = new BrickLevel08();
+         level9 = new BrickLevel09();
+         level10 = new BrickLevel10();
+         level11 = new BrickLevel11();
+         level12 = new BrickLevel12();
+      }
       catch(Exception b){}
          
       buttonArray1[0].setEnabled(true);
       
       s = JOptionPane.showInputDialog("Enter name:");
-      int x = LifeGetter.load(s);
-      if(x <= 6)
-         for(int i = 0; i < x; i ++)
-            buttonArray1[i].setEnabled(true);
+      if (s.equals("You Suck"))
+      {
+         JButton demo = new JButton("Demo");
+         demo.addActionListener(new Listener(0));
+         subpanel2.add(demo);
+         demo.setEnabled(true);
+      }
+      
       else
       {
-         for(int i = 0; i < 6; i ++)
-            buttonArray1[i].setEnabled(true);
-         for(int i = 0; i <= x - 7; i ++)
-            buttonArray2[i].setEnabled(true);
-      }
+         int x = LifeGetter.load(s);
+         if(x <= 6)
+            for(int i = 0; i < x; i ++)
+               buttonArray1[i].setEnabled(true);
+         else
+         {
+            for(int i = 0; i < 6; i ++)
+               buttonArray1[i].setEnabled(true);
+            for(int i = 0; i <= x - 7; i ++)
+               buttonArray2[i].setEnabled(true);
+         }
             
       
-      t = new Timer(500, new Listener2());
-      t.start();
+         t = new Timer(500, new Listener2());
+         t.start();
+      }
    }
    
    
@@ -147,6 +151,18 @@ public class BrickMenuV2 extends JPanel
       
          switch(myX)
          {
+            case 0:
+               
+               demo = new Demo();
+               resetLevels();
+               resetClips();
+               clip.start();
+               clip2.start();
+               add(demo, BorderLayout.CENTER);
+               demo.requestFocus();
+               demo.startTimer();
+               break;
+               
             case 1:
             
                resetLevels();
@@ -323,57 +339,68 @@ public class BrickMenuV2 extends JPanel
       {
          if(level1.hasWon == true)
          {
-            LifeGetter.save(2, s);
+            if (LifeGetter.load(s) <= 2)
+               LifeGetter.save(2, s);
             buttonArray1[1].setEnabled(true);
          }
          if(level2.hasWon == true)
          {
-            LifeGetter.save(3, s);
+            if (LifeGetter.load(s) <= 3)
+               LifeGetter.save(3, s);
             buttonArray1[2].setEnabled(true);
          }
          if(level3.hasWon == true)
          {
-            LifeGetter.save(4, s);
+            if (LifeGetter.load(s) <= 4)
+               LifeGetter.save(4, s);
             buttonArray1[3].setEnabled(true);
          }
          if(level4.hasWon == true)
          {
-            LifeGetter.save(5, s);
+            if (LifeGetter.load(s) <= 5)
+               LifeGetter.save(5, s);
             buttonArray1[4].setEnabled(true);
          }
          if(level5.hasWon == true)
          {
-            LifeGetter.save(6, s);
+            if (LifeGetter.load(s) <= 6)
+               LifeGetter.save(6, s);
             buttonArray1[5].setEnabled(true);
          }
          if(level6.hasWon == true)
          {
-            LifeGetter.save(7, s);
+            if (LifeGetter.load(s) <= 7)
+               LifeGetter.save(7, s);
             buttonArray2[0].setEnabled(true);
          }
          if(level7.hasWon == true)
          {
-            LifeGetter.save(8, s);
+            if (LifeGetter.load(s) <= 8)
+               LifeGetter.save(8, s);
             buttonArray2[1].setEnabled(true);
          }
          if(level8.hasWon == true)
          {
-            LifeGetter.save(9, s);
+            if (LifeGetter.load(s) <= 9)
+               LifeGetter.save(9, s);
             buttonArray2[2].setEnabled(true);
          }
          if(level9.hasWon == true)
          {
-            LifeGetter.save(10, s);
+            if (LifeGetter.load(s) <= 10)
+               LifeGetter.save(10, s);
             buttonArray2[3].setEnabled(true);
          }
          if(level10.hasWon == true)
          {
-            LifeGetter.save(11, s);
+            if (LifeGetter.load(s) <= 11)
+               LifeGetter.save(11, s);
             buttonArray2[4].setEnabled(true);
          }
          if(level11.hasWon == true)
          {
-            LifeGetter.save(12, s);
+            if (LifeGetter.load(s) <= 12)
+               LifeGetter.save(12, s);
             buttonArray2[5].setEnabled(true);
          }
       }

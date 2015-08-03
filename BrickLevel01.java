@@ -35,7 +35,7 @@ public class BrickLevel01 extends JPanel
    
    Robot delayer;
    
-   private boolean left, right;    
+   private boolean left, right,pause;    
    
    public boolean hasWon = false;
    
@@ -48,13 +48,13 @@ public class BrickLevel01 extends JPanel
       
       try
       {
-      file = new File("Lose.wav");
-      stream = AudioSystem.getAudioInputStream(file);
-      format = stream.getFormat();
-      info = new DataLine.Info(Clip.class, format);
-      clip = (Clip) AudioSystem.getLine(info);
-      clip.open(stream);
-      delayer = new Robot();
+         file = new File("Lose.wav");
+         stream = AudioSystem.getAudioInputStream(file);
+         format = stream.getFormat();
+         info = new DataLine.Info(Clip.class, format);
+         clip = (Clip) AudioSystem.getLine(info);
+         clip.open(stream);
+         delayer = new Robot();
       }
       catch(Exception a){}
       
@@ -192,6 +192,20 @@ public class BrickLevel01 extends JPanel
             left = true;
          if(e.getKeyCode()==KeyEvent.VK_RIGHT)
             right = true;
+         if(e.getKeyCode()==KeyEvent.VK_P)
+            if(pause == false)
+            {
+               myBuffer.setColor(Color.yellow);
+               myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
+               myBuffer.drawString("Game Paused", 60, 250);
+               stopTimer();
+               pause = true;
+            }
+            else
+            {
+               startTimer();
+               pause = false;
+            }
       }
       public void keyReleased(KeyEvent e)
       {
@@ -204,5 +218,9 @@ public class BrickLevel01 extends JPanel
    public void startTimer()
    {
       timer.start();
+   }
+   public void stopTimer()
+   {
+      timer.stop();
    }
 }

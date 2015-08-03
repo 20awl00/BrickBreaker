@@ -1,6 +1,7 @@
 //Jadon Schuler 7/13/2015
 
 import java.awt.*;
+import javax.swing.*;
    
 public class Bumper
 {
@@ -83,8 +84,10 @@ public class Bumper
        // draws a rectangular bumper on the buffer
    public void draw(Graphics myBuffer) 
    {
-      myBuffer.setColor(getColor());
-      myBuffer.fillRect(getX(), getY(), getXWidth(), getYWidth());
+      ImageIcon paddle = new ImageIcon("PaddleV3.jpg");
+      myBuffer.drawImage(paddle.getImage(), getX(), getY(), getXWidth(), getYWidth(), null);
+      //myBuffer.setColor(getColor());
+      //myBuffer.fillRect(getX(), getY(), getXWidth(), getYWidth());
    }   
    	// returns true if any part of the polkadot is inside the bumper
    public boolean inBumper(Polkadot dot)

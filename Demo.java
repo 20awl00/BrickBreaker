@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.*;
+import javax.sound.sampled.*;
+import java.io.File;
 
 public class Demo extends JPanel
 {
@@ -14,18 +16,33 @@ public class Demo extends JPanel
    private static final double BALL_DIAM = 24;
    private static final int BUMPER_X_WIDTH = 100;
    private static final int BUMPER_Y_WIDTH = 15;
-   private int lives = 3;
+   private int lives = LifeGetter.input("lives.txt") + 1;
+   
+   File file;
+   AudioInputStream stream;
+   AudioFormat format;
+   DataLine.Info info;
+   Clip clip;
+   Robot delayer;
 
    private BufferedImage myImage;
    private Graphics myBuffer;
-   private Ball ball;
-   private WeakBrick[] row1;
-   private MedBrick[] row2;
-   private SteelBrick[] row3;
+   private Ball[] ball;
+   private RubberBrick[] rubber;
+   private PortalBrick a;
+   private PortalBrick b;
+   private MedBrick[] row1;
+   private BoosterBrick[] booster;
    private Bumper bumper;
    private Timer timer;
    
-   private boolean left, right;    
+   private JLabel label;
+   
+   private int numBalls = 1;
+   
+   private boolean left, right, resume;
+   
+   public boolean hasWon = false;
    
    public Demo()
    {
@@ -34,29 +51,50 @@ public class Demo extends JPanel
       myBuffer.setColor(BACKGROUND);
       myBuffer.fillRect(0, 0, FRAME,FRAME);
       
+      try
+      {
+         file = new File("Lose.wav");
+         stream = AudioSystem.getAudioInputStream(file);
+         format = stream.getFormat();
+         info = new DataLine.Info(Clip.class, format);
+         clip = (Clip) AudioSystem.getLine(info);
+      
+         delayer = new Robot();
+      }
+      catch(Exception a){}
+      
+      label = new JLabel();
+      label.setFont(new Font("Monotype Corsiva", Font.BOLD, 30));
+      label.setForeground(Color.yellow);
+      label.setBackground(Color.black);
+      label.setOpaque(true);
+      add(label);
+      
       // create ball and jump
-      ball = new Ball(20,300,BALL_DIAM,BALL_COLOR);
+      ball = new Ball[3];
+      for (int k = 0; k < numBalls; k ++)
+         ball[k] = new Ball(20,300,BALL_DIAM, BALL_COLOR); 
    
                
       // create paddle
       bumper = new Bumper(20,350,BUMPER_X_WIDTH,BUMPER_Y_WIDTH,BUMPER_COLOR);
       
       //Create bricks
-      row1 = new WeakBrick[7];
-      row2 = new MedBrick[7];
-      row3 = new SteelBrick[7];
+      rubber = new RubberBrick[2];
+      row1 = new MedBrick[7];
+      booster = new BoosterBrick[7];
       
-      int x = 15;
+      a = new PortalBrick(120, 120);
+      b = new PortalBrick(232, 120);
       for(int i = 0; i < 7; i++)
       {
-         row1[i] = new WeakBrick(x,65);
-         row2[i] = new MedBrick(x, 45);
-         row3[i] = new SteelBrick(x, 25);
-         x += 52;
+         row1[i] = new MedBrick(i*52+20, 40);
+         booster[i] = new BoosterBrick(i*52+20, 70);
       }
-      
-      timer = new Timer(0, new Listener());
-      timer.start();
+      for(int i = 0; i < 2; i++)
+         rubber[i] = new RubberBrick(i * 112 + 120, 250);   
+      timer = new Timer(6, new Listener());
+      //timer.start();
       
       addKeyListener(new Key());
       setFocusable(true);
@@ -74,57 +112,87 @@ public class Demo extends JPanel
       {
          // clear buffer and move ball
          myBuffer.setColor(BACKGROUND);
-         myBuffer.fillRect(0,0,FRAME,FRAME); 
-         ball.move(FRAME, FRAME);
+         myBuffer.fillRect(0,0,FRAME,FRAME);
+         
+         for(int k = 0; k < numBalls; k ++)
+            ball[k].move(FRAME, FRAME);
+         
          if(right)
             bumper.setX(bumper.getX()+3);
          if(left)
             bumper.setX(bumper.getX()-3);
          
-         BumperCollision.collide(bumper, ball);
+         for(int k = 0; k < numBalls; k ++)
+            BumperCollision.collide(bumper, ball[k]);
+         
+         for(int i = 0; i < 2; i++)
+            for(int k = 0; k < numBalls; k ++)
+               BrickCollision.collide(rubber[i], ball[k]);
+            
          for(int i = 0; i < 7; i++)
          {
-            BrickCollision.collide(row1[i], ball);
-            BrickCollision.collide(row2[i], ball);
-            BrickCollision.collide(row3[i], ball);
+            for(int k = 0; k < numBalls; k ++)
+            {
+               BrickCollision.collide(row1[i], ball[k]);
+               BrickCollisionBooster.collide(booster[i], ball[k]);
+            }
+         }
+         for(int k = 0; k < numBalls; k ++)
+         {
+            BrickCollision.collide(a, ball[k]);
+            BrickCollision.collide(b, ball[k]);
+         
+            a.teleport(ball[k]);
+            b.teleport(ball[k]);
          }
          
-         if(ball.getY()-200 >= FRAME)
+         if(checkLife())
          {
-            ball.setX(20);
-            ball.setY(300);
-            ball.setdx(3);
-            ball.setdy(-2);
+            ball[numBalls - 1].setX(20);
+            ball[numBalls - 1].setY(300);
+            ball[numBalls - 1].setdx(3);
+            ball[numBalls - 1].setdy(-2);
             if (lives <= 0)
             {
                myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
                myBuffer.setColor(Color.RED.darker());
                myBuffer.drawString("YOU LOSE", 80, 150);
                timer.stop();
+               clip.start();
+               delayer.delay(2000);
+               System.exit(0);
             }
             else
                lives --;
          }
+         
          boolean allOk = true ;
          for( int i = 0 ; i < 7; i++)
          {
             allOk = allOk && row1[i].ok ;
-            allOk = allOk && row2[i].ok ;
-            allOk = allOk && row3[i].ok ;
+            allOk = allOk && booster[i].ok ;
          }
+            
+         allOk = allOk && a.ok;
+         allOk = allOk && b.ok;
            
          if(allOk)
          {
             myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
             myBuffer.setColor(Color.GREEN.darker());
             myBuffer.drawString("YOU WIN", 90, 150);
+            LifeGetter.output(lives, "lives.txt");
+            hasWon = true;
             timer.stop();
          }
          
-         if(ball.getdx() == 0)
-            ball.setdx(2);
-         if(ball.getdy() == 0)
-            ball.setdy(2);
+         for(int k = 0; k < numBalls; k ++)
+         {
+            if(ball[k].getdx() == 0)
+               ball[k].setdx(2);
+            if(ball[k].getdy() == 0)
+               ball[k].setdy(2);
+         }
             
          if(bumper.getX()<= 0)
             bumper.setX(0);
@@ -136,36 +204,42 @@ public class Demo extends JPanel
          myBuffer.drawString("Lives: " + lives, 320, 20);
          
          //DEMO
-         bumper.setX((int) ball.getX() - 62);
+         //int rand = (int) (Math.random() * BUMPER_X_WIDTH);
+         bumper.setX((int) ball[0].getX() - 80);
       
-         // draw ball, bumper & prize
-         ball.draw(myBuffer);
+         // draw ball & bumper
+         
+         for(int k = 0; k < numBalls; k ++)
+            ball[k].draw(myBuffer);
+         
          bumper.draw(myBuffer);
-         for(int i = 0; i < 7; i++)
+         for(int i = 0; i < 7; i++)       
          {
             row1[i].draw(myBuffer);
-            row2[i].draw(myBuffer);
-            row3[i].draw(myBuffer);
-         }        
-                     
+            booster[i].draw(myBuffer);
+         }
+         for(int i = 0; i < 2; i++) 
+            rubber[i].draw(myBuffer);  
+         a.draw(myBuffer);
+         b.draw(myBuffer);
+         
+         if(resume)
+         {
+            int count = 0;
+            while(count < 1000000)
+            {
+               count ++;
+               label.setText("No more multiballs!");
+               repaint();
+               resume = false;
+            }
+         }
+         label.setText("");
+         
          repaint();
       }
    } 
    
-	// checks to see if the ball & prize collide
-	// if so, increments hits & relocates prize	
-   
-   /*public void collide(Ball b, Polkadot p)
-   {
-      // find distance between ball & prize centers
-      double dist = distance(b.getX(), b.getY(), p.getX(), p.getY());
-      
-      if(dist < p.getRadius() + b.getRadius())
-      {
-         hits++;
-         p.jump(FRAME,FRAME);    	
-      }
-   }*/
 		
    private double distance(double x1, double y1, double x2, double y2)
    {
@@ -179,6 +253,10 @@ public class Demo extends JPanel
             left = true;
          if(e.getKeyCode()==KeyEvent.VK_RIGHT)
             right = true;
+         if(e.getKeyCode()==KeyEvent.VK_SPACE)
+            multiball();
+         if(e.getKeyCode()==KeyEvent.VK_T)
+            resume = true;
       }
       public void keyReleased(KeyEvent e)
       {
@@ -188,5 +266,40 @@ public class Demo extends JPanel
             right = false;
       }
    }
-
+   public void startTimer()
+   {
+      timer.start();
+   }
+   public void multiball()
+   {
+      try
+      {
+         for(int k = numBalls; k < numBalls + 2; k ++)
+            ball[k] = new Ball(20,300,BALL_DIAM, BALL_COLOR);
+         ball[numBalls].setdx(2);
+         numBalls += 2;
+      }
+      catch(IndexOutOfBoundsException a)
+      {
+         resume = true;
+         label.setText("No more multiballs!");
+      }
+   }
+   public boolean checkLife()
+   {
+      boolean life = true;
+      for(int k = 0; k < numBalls; k ++)
+      {
+         if(ball[k].getY()-12 >= FRAME && life == true)
+            life = true;
+         else
+            life = false;
+      }
+      if(life == true)
+      {
+         return true;
+      }
+      else
+         return false;
+   }
 }

@@ -18,4 +18,12 @@ public abstract class Brick extends Bumper
    {
       myFractures++;
    }
+   
+   public void draw(Graphics myBuffer) 
+   {
+      //ImageIcon paddle = new ImageIcon("Paddle.jpg");
+      //myBuffer.drawImage(paddle.getImage(), getX(), getY(), getXWidth(), getYWidth(), null);
+      myBuffer.setColor(getColor());
+      myBuffer.fillRect(getX(), getY(), getXWidth(), getYWidth());
+   }
 }

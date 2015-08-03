@@ -24,7 +24,7 @@ public class DriverBrick
       frame.setLocation(350, 180);
       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
       
-      BrickLevel12 level = new BrickLevel12();
+      Demo level = new Demo();
       frame.setContentPane(level);
                //level.requestFocus();
       level.startTimer();

@@ -10,10 +10,17 @@ public abstract class Brick extends Bumper
       super(x, y, 50, 15, c);
    } 
    public abstract void whatever();
+   
    public int getFractures()
    {
       return myFractures;
    }
+   
+   public void setFractures(int x)
+   {
+      myFractures = x;
+   }
+   
    public void fracture()
    {
       myFractures++;

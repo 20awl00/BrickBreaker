@@ -4,7 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.sound.sampled.*;
-import java.io.File; 
+import java.io.File;
+import java.awt.image.*;
 
 public class BrickMenuV2 extends JPanel
 {
@@ -21,6 +22,7 @@ public class BrickMenuV2 extends JPanel
    public BrickLevel11 level11;
    public BrickLevel12 level12;
    public Demo demo;
+   private PanelLogo logo;
    
    private Timer t;
    
@@ -38,9 +40,22 @@ public class BrickMenuV2 extends JPanel
    DataLine.Info info2;
    Clip clip2;
    
+   
+   
    JButton[] buttonArray1;
    JButton[] buttonArray2;
-      
+   
+   public void paintComponent(Graphics g)
+   {
+      ImageIcon logo = new ImageIcon("Logo.jpg");
+      g.setColor(Color.BLACK);
+      g.fillRect(0,0,720,840);
+      g.drawImage(logo.getImage(),60, 150, 600, 470, null);  //844, 608
+      g.setColor(Color.RED);
+      g.setFont(new Font("", Font.PLAIN, 15));
+      g.drawString("By Jadon Schuler and Alex Lewis", 50, 700);
+   }
+   
    public BrickMenuV2()
    {
       setLayout(new BorderLayout());
@@ -49,6 +64,24 @@ public class BrickMenuV2 extends JPanel
       
       buttonArray1 = new JButton[6];
       buttonArray2 = new JButton[6];
+      
+   //       myImage =  new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
+   //       myBuffer = myImage.getGraphics();
+      
+         JPanel subpanel = new JPanel();
+         subpanel.setOpaque(false);
+         subpanel.setBackground(Color.black);
+         JLabel label1 = new JLabel();
+         label1.setForeground(Color.red);
+         label1.setFont(new Font("", Font.PLAIN, 50));
+         label1.setText("Welcome to Brick Breaker");
+         subpanel.add(label1);
+         JLabel label2 = new JLabel();
+         label2.setForeground(Color.red);
+         label2.setFont(new Font("", Font.PLAIN, 30));
+         label2.setText("Click on a button to start");
+         subpanel.add(label2);
+         add(subpanel, BorderLayout.CENTER);
       
       JPanel subpanel1 = new JPanel();
       subpanel1.setLayout(new FlowLayout());

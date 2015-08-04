@@ -17,12 +17,6 @@ public class BrickLevel01 extends JPanel
    private static final int BUMPER_X_WIDTH = 100;
    private static final int BUMPER_Y_WIDTH = 15;
    private int lives = 3;
-   
-   File file;
-   AudioInputStream stream;
-   AudioFormat format;
-   DataLine.Info info;
-   Clip clip;
 
    private BufferedImage myImage;
    private Graphics myBuffer;
@@ -33,7 +27,6 @@ public class BrickLevel01 extends JPanel
    private Bumper bumper;
    private Timer timer;
    
-   Robot delayer;
    
    private boolean left, right,pause;    
    
@@ -45,19 +38,6 @@ public class BrickLevel01 extends JPanel
       myBuffer = myImage.getGraphics();
       myBuffer.setColor(BACKGROUND);
       myBuffer.fillRect(0, 0, FRAME,FRAME);
-      
-      try
-      {
-         file = new File("Lose.wav");
-         stream = AudioSystem.getAudioInputStream(file);
-         format = stream.getFormat();
-         info = new DataLine.Info(Clip.class, format);
-         clip = (Clip) AudioSystem.getLine(info);
-         clip.open(stream);
-         delayer = new Robot();
-      }
-      catch(Exception a){}
-      
       
       // create ball and jump
       ball = new Ball(20,300,BALL_DIAM,BALL_COLOR);
@@ -122,13 +102,7 @@ public class BrickLevel01 extends JPanel
             ball.setdy(-2);
             if (lives <= 0)
             {
-               myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
-               myBuffer.setColor(Color.RED.darker());
-               myBuffer.drawString("YOU LOSE", 80, 150);
-               timer.stop();
-               clip.start();
-               delayer.delay(2000);
-               System.exit(0);
+               lose();
             }
             else
                lives --;
@@ -197,8 +171,10 @@ public class BrickLevel01 extends JPanel
             {
                myBuffer.setColor(Color.yellow);
                myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
-               myBuffer.drawString("Game Paused", 60, 250);
                stopTimer();
+               myBuffer.drawString("Game Paused", 60, 250);
+               repaint();
+               
                pause = true;
             }
             else
@@ -221,6 +197,13 @@ public class BrickLevel01 extends JPanel
    }
    public void stopTimer()
    {
+      timer.stop();
+   }
+   public void lose()
+   {
+      myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
+      myBuffer.setColor(Color.RED.brighter());
+      myBuffer.drawString("GAME OVER", 50, 150);
       timer.stop();
    }
 }

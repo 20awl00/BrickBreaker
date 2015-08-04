@@ -17,13 +17,6 @@ public class BrickLevel12 extends JPanel
    private static final int BUMPER_X_WIDTH = 100;
    private static final int BUMPER_Y_WIDTH = 15;
    private int lives = LifeGetter.input("lives.txt") + 1;
-   
-   File file;
-   AudioInputStream stream;
-   AudioFormat format;
-   DataLine.Info info;
-   Clip clip;
-   Robot delayer;
 
    private BufferedImage myImage;
    private Graphics myBuffer;
@@ -50,18 +43,6 @@ public class BrickLevel12 extends JPanel
       myBuffer = myImage.getGraphics();
       myBuffer.setColor(BACKGROUND);
       myBuffer.fillRect(0, 0, FRAME,FRAME);
-      
-      try
-      {
-         file = new File("Lose.wav");
-         stream = AudioSystem.getAudioInputStream(file);
-         format = stream.getFormat();
-         info = new DataLine.Info(Clip.class, format);
-         clip = (Clip) AudioSystem.getLine(info);
-      
-         delayer = new Robot();
-      }
-      catch(Exception a){}
       
       label = new JLabel();
       label.setFont(new Font("Monotype Corsiva", Font.BOLD, 30));
@@ -146,25 +127,7 @@ public class BrickLevel12 extends JPanel
             b.teleport(ball[k]);
          }
          
-         if(checkLife())
-         {
-            ball[numBalls - 1].setX(20);
-            ball[numBalls - 1].setY(300);
-            ball[numBalls - 1].setdx(3);
-            ball[numBalls - 1].setdy(-2);
-            if (lives <= 0)
-            {
-               myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
-               myBuffer.setColor(Color.RED.darker());
-               myBuffer.drawString("YOU LOSE", 80, 150);
-               timer.stop();
-               clip.start();
-               delayer.delay(2000);
-               System.exit(0);
-            }
-            else
-               lives --;
-         }
+         
          
          boolean allOk = true ;
          for( int i = 0 ; i < 7; i++)
@@ -232,6 +195,24 @@ public class BrickLevel12 extends JPanel
          }
          label.setText("");
          
+         if(checkLife())
+         {
+            ball[numBalls - 1].setX(20);
+            ball[numBalls - 1].setY(300);
+            ball[numBalls - 1].setdx(3);
+            ball[numBalls - 1].setdy(-2);
+            if (lives <= 0)
+            {
+               myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
+               myBuffer.setColor(Color.RED.brighter());
+               myBuffer.drawString("GAME OVER", 50, 150);
+               timer.stop();
+               repaint();
+            }
+            else
+               lives --;
+         }
+         
          repaint();
       }
    } 
@@ -258,8 +239,9 @@ public class BrickLevel12 extends JPanel
             {
                myBuffer.setColor(Color.yellow);
                myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
-               myBuffer.drawString("Game Paused", 60, 250);
                timer.stop();
+               myBuffer.drawString("Game Paused", 60, 250);
+               repaint();
                pause = true;
             }
             else

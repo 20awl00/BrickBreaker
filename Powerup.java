@@ -42,7 +42,7 @@ public abstract class Powerup
    
    public boolean collideWith(Bumper bumper)
    {
-      if(myX >= bumper.getX() && myX <= (bumper.getX() + bumper.getXWidth()) && myY >= bumper.getY() && myY <= (bumper.getY() + bumper.getYWidth()))
+      if(myX >= bumper.getX() && myX <= (bumper.getX() + bumper.getXWidth()) && myY + 20 >= bumper.getY() && myY + 20 <= (bumper.getY() + bumper.getYWidth() + 20))
       {
          setX(1000);
          return true;

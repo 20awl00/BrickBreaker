@@ -31,16 +31,39 @@ public class BrickLevel08 extends JPanel
    private Bumper bumper;
    private Timer timer;
    
-   private boolean left, right, pause;
+   private Laser laser;
+   
+   private int lasercount = 0;
+   
+   private int brick;
+   
+   private boolean left, right, pause, yay, lasers, space;    
    
    public boolean hasWon = false;
    
-   public BrickLevel08() throws Exception
+   ImageIcon laserpad;  
+   
+   public LaserShot[] laserArray;
+   
+   public BrickLevel08()
    {
       myImage =  new BufferedImage(FRAME, FRAME, BufferedImage.TYPE_INT_RGB);
       myBuffer = myImage.getGraphics();
       myBuffer.setColor(BACKGROUND);
       myBuffer.fillRect(0, 0, FRAME,FRAME);
+      
+      laserArray = new LaserShot[20];
+      laser = new Laser(1000, 0);
+      
+      brick = (int) (Math.random() * 3);
+      
+      yay = false;
+      lasers = false;
+      
+      for(int i = 0; i < 20; i ++)
+         laserArray[i] = new LaserShot(1000, 0);
+      
+      laserpad = new ImageIcon("PaddleV3Laser.jpg");
       
       // create ball and jump
       ball = new Ball(20,300,BALL_DIAM,BALL_COLOR);
@@ -92,10 +115,26 @@ public class BrickLevel08 extends JPanel
          myBuffer.setColor(BACKGROUND);
          myBuffer.fillRect(0,0,FRAME,FRAME); 
          ball.move(FRAME, FRAME);
+         
+         laser.move();
+         
+         if(column4[brick].getX() > FRAME && yay == false)
+         {
+            laser.setX((int)(Math.random() * FRAME));
+            laser.setY(0);
+            yay = true;
+         }
+         
          if(right)
             bumper.setX(bumper.getX()+3);
          if(left)
             bumper.setX(bumper.getX()-3);
+         
+         for(int k = 0; k < 20; k ++)
+            laserArray[k].move();
+            
+         if(space)
+            fire(lasercount);
          
          BumperCollision.collide(bumper, ball);
          for(int i = 0; i < 3; i++)
@@ -107,6 +146,16 @@ public class BrickLevel08 extends JPanel
             BrickCollision.collide(column5[i], ball);
             BrickCollision.collide(column6[i], ball);
             BrickCollision.collide(column7[i], ball);
+            for(int k = 0; k < 20; k ++)
+            {
+               laserArray[k].hit(column1[i]);
+               laserArray[k].hit(column2[i]);
+               laserArray[k].hit(column3[i]);
+               laserArray[k].hit(column4[i]);
+               laserArray[k].hit(column5[i]);
+               laserArray[k].hit(column6[i]);
+               laserArray[k].hit(column7[i]);
+            }
          }
          boolean allOk = true ;
          for( int i = 0 ; i < 3; i++)
@@ -131,6 +180,9 @@ public class BrickLevel08 extends JPanel
             
          }
          
+         if(laser.collideWith(bumper))
+            lasers = true;
+         
          if(ball.getdx() == 0)
             ball.setdx(2);
          if(ball.getdy() == 0)
@@ -143,7 +195,14 @@ public class BrickLevel08 extends JPanel
       
          // draw ball, bumper & prize
          ball.draw(myBuffer);
+         
          bumper.draw(myBuffer);
+         if(lasers)
+            myBuffer.drawImage(laserpad.getImage(), bumper.getX(), bumper.getY(), bumper.getXWidth(), bumper.getYWidth(), null);
+         
+         for(int k = 0; k < 20; k ++)
+            laserArray[k].draw(myBuffer);
+         
          for(int i = 0; i < 3; i++)
          {
             column1[i].draw(myBuffer);
@@ -165,6 +224,7 @@ public class BrickLevel08 extends JPanel
             ball.setY(300);
             ball.setdx(3);
             ball.setdy(-2);
+            lasers = false;
             if (lives <= 0)
             {
                myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
@@ -175,6 +235,8 @@ public class BrickLevel08 extends JPanel
             else
                lives --;
          }
+         
+         laser.draw(myBuffer);
                      
          repaint();
       }
@@ -207,6 +269,11 @@ public class BrickLevel08 extends JPanel
                timer.start();
                pause = false;
             }
+         if(e.getKeyCode()==KeyEvent.VK_SPACE && lasers == true)
+         {
+            space = true;
+            lasercount += 2;
+         }
       }
       public void keyReleased(KeyEvent e)
       {
@@ -214,10 +281,21 @@ public class BrickLevel08 extends JPanel
             left = false;
          if(e.getKeyCode()==KeyEvent.VK_RIGHT)
             right = false;
+         if(e.getKeyCode()==KeyEvent.VK_SPACE && lasers == true)
+            space = false;
       }
    }
    public void startTimer()
    {
       timer.start();
+   }
+   
+   public void fire(int x)
+   {
+      laserArray[x % 20].setX(bumper.getX() + bumper.getXWidth() - 5);
+      laserArray[x % 20].setY(bumper.getY());
+      
+      laserArray[(x % 20) + 1].setX(bumper.getX());
+      laserArray[(x % 20) + 1].setY(bumper.getY());
    }
 }

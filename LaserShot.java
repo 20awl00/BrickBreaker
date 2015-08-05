@@ -48,7 +48,7 @@ public class LaserShot
    public void hit(Brick brick)
    {
       if(myY <= brick.getY() + brick.getYWidth() && myY >= brick.getY())
-         if(myX <= brick.getX() + brick.getXWidth() && myX >= brick.getX())
+         if(myX <= brick.getX() + brick.getXWidth() && myX + 19 >= brick.getX())
          {
             brick.fracture();
             brick.whatever();

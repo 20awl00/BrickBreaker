@@ -27,7 +27,6 @@ public class BrickLevel01 extends JPanel
    private Bumper bumper;
    private Timer timer;
    
-   private Multiball multiball;
    private Laser laser;
    
    private int lasercount = 0;
@@ -198,8 +197,6 @@ public class BrickLevel01 extends JPanel
       
          // draw ball, bumper & prize
          
-         laser.draw(myBuffer);
-         
          ball.draw(myBuffer);
          
          bumper.draw(myBuffer);
@@ -214,7 +211,9 @@ public class BrickLevel01 extends JPanel
             row1[i].draw(myBuffer);
             row2[i].draw(myBuffer);
             row3[i].draw(myBuffer);
-         }        
+         }
+         
+         laser.draw(myBuffer);
                      
          repaint();
       }

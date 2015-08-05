@@ -20,7 +20,6 @@ public class BrickMenuV2 extends JPanel
    public BrickLevel09 level9;
    public BrickLevel10 level10;
    public BrickLevel11 level11;
-   public BrickLevel12 level12;
    public Demo demo;
    private PanelLogo logo;
    
@@ -63,7 +62,7 @@ public class BrickMenuV2 extends JPanel
       setBackground(Color.black);
       
       buttonArray1 = new JButton[6];
-      buttonArray2 = new JButton[6];
+      buttonArray2 = new JButton[5];
       
    //       myImage =  new BufferedImage(400, 400, BufferedImage.TYPE_INT_RGB);
    //       myBuffer = myImage.getGraphics();
@@ -95,7 +94,7 @@ public class BrickMenuV2 extends JPanel
       add(subpanel1, BorderLayout.NORTH);
       
       JPanel subpanel2 = new JPanel();
-      for(int i = 0; i < 6; i ++)
+      for(int i = 0; i < 5; i ++)
       {
          buttonArray2[i] = new JButton("Level " + (i + 7));
          buttonArray2[i].addActionListener(new Listener(i + 7));
@@ -135,7 +134,6 @@ public class BrickMenuV2 extends JPanel
          level9 = new BrickLevel09();
          level10 = new BrickLevel10();
          level11 = new BrickLevel11();
-         level12 = new BrickLevel12();
       }
       catch(Exception b){}
          
@@ -327,17 +325,6 @@ public class BrickMenuV2 extends JPanel
                level11.startTimer();
                break;
                
-            case 12:
-               
-               resetLevels();
-               resetClips();
-               clip.start();
-               clip2.start();
-               add(level12, BorderLayout.CENTER);
-               level12.requestFocus();
-               level12.startTimer();
-               break;
-               
          }
          validate();
          repaint();
@@ -430,12 +417,6 @@ public class BrickMenuV2 extends JPanel
                LifeGetter.save(11, s);
             buttonArray2[4].setEnabled(true);
          }
-         if(level11.hasWon == true)
-         {
-            if (LifeGetter.load(s) <= 12)
-               LifeGetter.save(12, s);
-            buttonArray2[5].setEnabled(true);
-         }
       }
    }
    
@@ -455,7 +436,6 @@ public class BrickMenuV2 extends JPanel
          level9 = new BrickLevel09();
          level10 = new BrickLevel10();
          level11 = new BrickLevel11();
-         level12 = new BrickLevel12();
       }
       catch(Exception c){}
    

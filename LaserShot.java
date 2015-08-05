@@ -50,7 +50,8 @@ public class LaserShot
       if(myY <= brick.getY() + brick.getYWidth() && myY >= brick.getY())
          if(myX <= brick.getX() + brick.getXWidth() && myX >= brick.getX())
          {
-            brick.setFractures(brick.getFractures() + 1);
+            brick.fracture();
+            brick.whatever();
             setX(1000);
          }
    }

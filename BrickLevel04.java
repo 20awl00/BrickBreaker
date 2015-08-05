@@ -41,7 +41,7 @@ public class BrickLevel04 extends JPanel
    
    public LaserShot[] laserArray;  
    
-   public BrickLevel04() throws Exception
+   public BrickLevel04()
    {
       myImage =  new BufferedImage(FRAME, FRAME, BufferedImage.TYPE_INT_RGB);
       myBuffer = myImage.getGraphics();

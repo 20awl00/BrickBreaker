@@ -18,8 +18,8 @@ public class BrickMenu extends JPanel
    public BrickLevel10 level10;
    public BrickLevel11 level11;
    
-   JButton[] buttonArray1
-   JButton[] buttonArray2
+   JButton[] buttonArray1;
+   JButton[] buttonArray2;
       
    public BrickMenu()
    {

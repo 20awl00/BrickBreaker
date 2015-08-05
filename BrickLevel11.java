@@ -49,7 +49,7 @@ public class BrickLevel11 extends JPanel
    
    public LaserShot[] laserArray;
    
-   public BrickLevel11() throws Exception
+   public BrickLevel11()
    {
       myImage =  new BufferedImage(FRAME, FRAME, BufferedImage.TYPE_INT_RGB);
       myBuffer = myImage.getGraphics();
@@ -91,7 +91,6 @@ public class BrickLevel11 extends JPanel
       }
       for(int i = 0; i < 4; i++)
          rubber[i] = new RubberBrick(i * 105 + 20, 320);
-   
       timer = new Timer(6, new Listener());
       //timer.start();
       
@@ -111,7 +110,6 @@ public class BrickLevel11 extends JPanel
       {
          laserArray[i] = new LaserShot(1000, 0);
       }
-   
    }
    
    public void paintComponent(Graphics g)
@@ -374,7 +372,6 @@ public class BrickLevel11 extends JPanel
       }
       if(life == true)
       {
-         life = false;
          return true;
       }
       else

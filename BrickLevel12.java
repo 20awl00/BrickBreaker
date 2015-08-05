@@ -29,13 +29,25 @@ public class BrickLevel12 extends JPanel
    private Bumper bumper;
    private Timer timer;
    
+   private Multiball multiball;
+   private Laser laser;
+   
+   private int lasercount = 0;
+   
+   private int brick;
+   private int brick2;
+   
    private JLabel label;
+   
+   ImageIcon laserpad;
    
    private int numBalls = 1;
    
-   private boolean left, right, resume, pause;
+   private boolean left, right, resume, pause, yay, yay2, lasers, space;
    
    public boolean hasWon = false;
+   
+   public LaserShot[] laserArray;
    
    public BrickLevel12()
    {
@@ -51,6 +63,8 @@ public class BrickLevel12 extends JPanel
       label.setOpaque(true);
       add(label);
       
+      laserArray = new LaserShot[20];
+      
       // create ball and jump
       ball = new Ball[3];
       for (int k = 0; k < numBalls; k ++)
@@ -64,6 +78,9 @@ public class BrickLevel12 extends JPanel
       rubber = new RubberBrick[2];
       row1 = new MedBrick[7];
       booster = new BoosterBrick[7];
+      
+      multiball = new Multiball(1000, 0);
+      laser = new Laser(1000, 0);
       
       a = new PortalBrick(120, 120);
       b = new PortalBrick(232, 120);
@@ -79,7 +96,20 @@ public class BrickLevel12 extends JPanel
       
       addKeyListener(new Key());
       setFocusable(true);
-   
+      
+      brick = (int) (Math.random() * 7);
+      brick2 = (int) (Math.random() * 7);
+      
+      yay = false;
+      yay2 = false;
+      lasers = false;
+      
+      laserpad = new ImageIcon("PaddleV3Laser.jpg");
+      
+      for(int i = 0; i < 20; i ++)
+      {
+         laserArray[i] = new LaserShot(1000, 0);
+      }
    }
    
    public void paintComponent(Graphics g)
@@ -95,13 +125,34 @@ public class BrickLevel12 extends JPanel
          myBuffer.setColor(BACKGROUND);
          myBuffer.fillRect(0,0,FRAME,FRAME);
          
+         multiball.move();
+         laser.move();
+         
+         if(booster[brick].getX() > FRAME && yay == false)
+         {
+            multiball.setX((int)(Math.random() * FRAME));
+            multiball.setY(0);
+            yay = true;
+         }
+         if(booster[brick2].getX() > FRAME && yay2 == false)
+         {
+            laser.setX((int)(Math.random() * FRAME));
+            laser.setY(0);
+            yay2 = true;
+         }
+         
          for(int k = 0; k < numBalls; k ++)
             ball[k].move(FRAME, FRAME);
+         for(int k = 0; k < 20; k ++)
+            laserArray[k].move();
          
          if(right)
             bumper.setX(bumper.getX()+3);
          if(left)
             bumper.setX(bumper.getX()-3);
+         
+         if(space)
+            fire(lasercount);
          
          for(int k = 0; k < numBalls; k ++)
             BumperCollision.collide(bumper, ball[k]);
@@ -109,6 +160,10 @@ public class BrickLevel12 extends JPanel
          for(int i = 0; i < 2; i++)
             for(int k = 0; k < numBalls; k ++)
                BrickCollision.collide(rubber[i], ball[k]);
+               
+         for(int i = 0; i < 2; i++)
+            for(int k = 0; k < 20; k ++)
+               laserArray[k].hit(rubber[i]);
             
          for(int i = 0; i < 7; i++)
          {
@@ -118,6 +173,17 @@ public class BrickLevel12 extends JPanel
                BrickCollisionBooster.collide(booster[i], ball[k]);
             }
          }
+         
+         for(int i = 0; i < 7; i++)
+         {
+            for(int k = 0; k < 20; k ++)
+            {
+               laserArray[k].hit(row1[i]);
+               laserArray[k].hit(booster[i]);
+            }
+         }
+         
+         
          for(int k = 0; k < numBalls; k ++)
          {
             BrickCollision.collide(a, ball[k]);
@@ -127,7 +193,10 @@ public class BrickLevel12 extends JPanel
             b.teleport(ball[k]);
          }
          
-         
+         if(multiball.collideWith(bumper))
+            multiball();
+         if(laser.collideWith(bumper))
+            lasers = true;
          
          boolean allOk = true ;
          for( int i = 0 ; i < 7; i++)
@@ -170,8 +239,14 @@ public class BrickLevel12 extends JPanel
          
          for(int k = 0; k < numBalls; k ++)
             ball[k].draw(myBuffer);
+            
+         for(int k = 0; k < 20; k ++)
+            laserArray[k].draw(myBuffer);
          
          bumper.draw(myBuffer);
+         if(lasers)
+            myBuffer.drawImage(laserpad.getImage(), bumper.getX(), bumper.getY(), bumper.getXWidth(), bumper.getYWidth(), null);
+         
          for(int i = 0; i < 7; i++)       
          {
             row1[i].draw(myBuffer);
@@ -181,6 +256,9 @@ public class BrickLevel12 extends JPanel
             rubber[i].draw(myBuffer);  
          a.draw(myBuffer);
          b.draw(myBuffer);
+         
+         multiball.draw(myBuffer);
+         laser.draw(myBuffer);
          
          if(resume)
          {
@@ -201,6 +279,7 @@ public class BrickLevel12 extends JPanel
             ball[numBalls - 1].setY(300);
             ball[numBalls - 1].setdx(3);
             ball[numBalls - 1].setdy(-2);
+            lasers = false;
             if (lives <= 0)
             {
                myBuffer.setFont(new Font("Garamond", Font.BOLD, 50));
@@ -230,8 +309,11 @@ public class BrickLevel12 extends JPanel
             left = true;
          if(e.getKeyCode()==KeyEvent.VK_RIGHT)
             right = true;
-         if(e.getKeyCode()==KeyEvent.VK_SPACE)
-            multiball();
+         if(e.getKeyCode()==KeyEvent.VK_SPACE && lasers == true)
+         {
+            space = true;
+            lasercount += 2;
+         }
          if(e.getKeyCode()==KeyEvent.VK_T)
             resume = true;
          if(e.getKeyCode()==KeyEvent.VK_P)
@@ -256,6 +338,8 @@ public class BrickLevel12 extends JPanel
             left = false;
          if(e.getKeyCode()==KeyEvent.VK_RIGHT)
             right = false;
+         if(e.getKeyCode()==KeyEvent.VK_SPACE && lasers == true)
+            space = false;
       }
    }
    public void startTimer()
@@ -293,5 +377,14 @@ public class BrickLevel12 extends JPanel
       }
       else
          return false;
+   }
+   
+   public void fire(int x)
+   {
+      laserArray[x % 20].setX(bumper.getX() + bumper.getXWidth() - 5);
+      laserArray[x % 20].setY(bumper.getY());
+      
+      laserArray[(x % 20) + 1].setX(bumper.getX());
+      laserArray[(x % 20) + 1].setY(bumper.getY());
    }
 }
